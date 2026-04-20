@@ -150,8 +150,8 @@ export function LinkManagement() {
   return (
     <AdminLayout>
       <DndProvider backend={HTML5Backend}>
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-          <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
+        <div className="bg-white border-b border-gray-200 sticky top-14 md:top-0 z-10">
+          <div className="max-w-4xl mx-auto px-4 md:px-6 py-4 flex items-center gap-4">
             <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
               <ArrowLeft className="w-5 h-5" />
             </Link>
@@ -159,8 +159,8 @@ export function LinkManagement() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-6 py-8">
-          <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 mb-6 space-y-1">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
+          <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 md:p-6 mb-6 space-y-1">
             <p className="text-sm text-blue-900"><strong>会社URL：</strong>2列の長方形カード（最大6個）</p>
             <p className="text-sm text-blue-900"><strong>SNS：</strong>正方形グリッド（最大6個）</p>
             <p className="text-sm text-blue-900"><strong>カスタムリンク：</strong>長方形カード（無制限）</p>
@@ -179,7 +179,7 @@ export function LinkManagement() {
           )}
 
           {showAddForm && (
-            <form onSubmit={handleAddLink} className="bg-white rounded-3xl border-2 border-gray-200 p-6 mb-6 space-y-4">
+            <form onSubmit={handleAddLink} className="bg-white rounded-3xl border-2 border-gray-200 p-4 md:p-6 mb-6 space-y-4">
               <h2>新しいリンク</h2>
               <div>
                 <label className="block mb-2">リンクタイプ</label>

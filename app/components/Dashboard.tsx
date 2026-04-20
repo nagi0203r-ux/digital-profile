@@ -47,15 +47,15 @@ export function Dashboard() {
   return (
     <AdminLayout>
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-6 py-6">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-6">
           <h1 className="text-2xl">ダッシュボード</h1>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
 
         {/* プロフィールプレビューカード */}
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-8 mb-6">
+        <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8 mb-6">
           <div className="flex items-start justify-between mb-6">
             <h2 className="text-xl">プロフィールプレビュー</h2>
             {userId && (

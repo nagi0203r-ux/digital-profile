@@ -90,8 +90,8 @@ export function ProfileEdit() {
 
   return (
     <AdminLayout>
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div className="bg-white border-b border-gray-200 sticky top-14 md:top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-4 flex items-center gap-4">
           <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
@@ -99,10 +99,10 @@ export function ProfileEdit() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
         <form onSubmit={handleSubmit} className="space-y-6">
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-8">
+          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
             <label className="block mb-6">プロフィール画像</label>
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
@@ -114,7 +114,7 @@ export function ProfileEdit() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-8">
+          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
             <h2 className="mb-6">基本情報</h2>
             <div className="space-y-5">
               {[
@@ -163,7 +163,7 @@ export function ProfileEdit() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-8">
+          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
             <h2 className="mb-6">連絡先情報</h2>
             <div className="space-y-5">
               <div>

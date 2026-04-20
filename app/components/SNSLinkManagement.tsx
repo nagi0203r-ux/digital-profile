@@ -125,8 +125,8 @@ export function SNSLinkManagement() {
 
   return (
     <AdminLayout>
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div className="bg-white border-b border-gray-200 sticky top-14 md:top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-4 flex items-center gap-4">
           <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
@@ -134,12 +134,12 @@ export function SNSLinkManagement() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
         <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 mb-6">
           <p className="text-sm text-blue-900">URLを入力したSNSのみ公開ページに表示されます。空欄は非表示になります。</p>
         </div>
 
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-6 space-y-5">
+        <div className="bg-white rounded-3xl border-2 border-gray-200 p-4 md:p-6 space-y-5">
           {SNS_PLATFORMS.map(({ id, name, Icon, color, placeholder }) => {
             const entry = state[id]
             return (
