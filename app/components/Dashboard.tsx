@@ -84,12 +84,12 @@ export function Dashboard() {
           </div>
 
           {userId && (
-            <div className="bg-gray-50 rounded-2xl px-4 py-3 flex items-center gap-3 mb-6">
-              <span className="text-sm text-gray-900 flex-1 truncate">{publicUrl}</span>
+            <div className="bg-gray-50 rounded-2xl px-3 py-3 flex items-center gap-2 mb-6 min-w-0">
+              <span className="text-xs text-gray-700 flex-1 truncate min-w-0">{publicUrl}</span>
               <button onClick={handleCopy}
                 className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 flex-shrink-0">
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copied ? "コピー済み" : "コピー"}
+                <span className="text-xs">{copied ? "コピー済み" : "コピー"}</span>
               </button>
             </div>
           )}

@@ -128,14 +128,14 @@ export function ThemeSettings() {
                     <Check className="w-4 h-4 text-white" />
                   </div>
                 )}
-                <div className={`${theme.preview.bg} rounded-xl p-4 mb-3 h-32`}>
-                  <div className={`${theme.preview.card} rounded-lg p-3 shadow-sm`}>
-                    <div className={`h-2 ${theme.preview.primary} rounded-full w-3/4 mb-2`} />
-                    <div className="h-1.5 bg-gray-300 rounded w-1/2" />
+                <div className={`${theme.preview.bg} rounded-xl p-3 mb-2 h-20`}>
+                  <div className={`${theme.preview.card} rounded-lg p-2 shadow-sm`}>
+                    <div className={`h-1.5 ${theme.preview.primary} rounded-full w-3/4 mb-1.5`} />
+                    <div className="h-1 bg-gray-300 rounded w-1/2" />
                   </div>
                 </div>
-                <div className="font-medium mb-1 text-gray-900">{theme.name}</div>
-                <div className="text-sm text-gray-700">{theme.description}</div>
+                <div className="font-medium text-sm text-gray-900">{theme.name}</div>
+                <div className="text-xs text-gray-700 leading-tight mt-0.5">{theme.description}</div>
               </button>
             ))}
           </div>

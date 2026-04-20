@@ -90,7 +90,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex overflow-x-hidden">
 
       {/* ━━━ PC：固定サイドバー ━━━ */}
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 fixed top-0 left-0 h-full z-20">
@@ -130,10 +130,10 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       )}
 
       {/* ━━━ メインコンテンツ ━━━ */}
-      <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
+      <div className="flex-1 md:ml-64 flex flex-col min-h-screen w-full min-w-0 overflow-x-hidden">
         {/* モバイル：ヘッダー分の余白 */}
         <div className="md:hidden h-14 flex-shrink-0" />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full min-w-0">{children}</main>
       </div>
     </div>
   )

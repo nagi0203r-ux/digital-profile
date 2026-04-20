@@ -143,29 +143,31 @@ export function SNSLinkManagement() {
           {SNS_PLATFORMS.map(({ id, name, Icon, color, placeholder }) => {
             const entry = state[id]
             return (
-              <div key={id} className="flex items-center gap-4">
-                <div className={`w-11 h-11 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 ${color}`}>
-                  <Icon style={{ width: "1.25rem", height: "1.25rem" }} />
+              <div key={id} className="flex items-start gap-3">
+                <div className={`w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 mt-1 ${color}`}>
+                  <Icon style={{ width: "1.125rem", height: "1.125rem" }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-700 mb-1">{name}</p>
+                  <div className="flex items-center justify-between mb-1 gap-2">
+                    <p className="text-sm font-medium text-gray-700 truncate">{name}</p>
+                    {entry.url && (
+                      <button
+                        type="button"
+                        onClick={() => setState(prev => ({ ...prev, [id]: { ...prev[id], enabled: !prev[id].enabled } }))}
+                        className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${entry.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}
+                      >
+                        <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${entry.enabled ? 'translate-x-5' : ''}`} />
+                      </button>
+                    )}
+                  </div>
                   <input
                     type="url"
                     value={entry.url}
                     onChange={e => setState(prev => ({ ...prev, [id]: { ...prev[id], url: e.target.value } }))}
-                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400 text-sm"
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-3 py-2 rounded-xl text-gray-900 placeholder:text-gray-400 text-sm"
                     placeholder={placeholder}
                   />
                 </div>
-                {entry.url && (
-                  <button
-                    type="button"
-                    onClick={() => setState(prev => ({ ...prev, [id]: { ...prev[id], enabled: !prev[id].enabled } }))}
-                    className={`relative w-12 h-7 rounded-full transition-colors flex-shrink-0 ${entry.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}
-                  >
-                    <div className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-transform ${entry.enabled ? 'translate-x-5' : ''}`} />
-                  </button>
-                )}
               </div>
             )
           })}

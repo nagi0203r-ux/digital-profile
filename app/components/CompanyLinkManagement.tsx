@@ -180,43 +180,42 @@ export function CompanyLinkManagement() {
         ) : (
           <div className="space-y-3 mb-6">
             {items.map((item, idx) => (
-              <div key={item.id} className="bg-white border-2 border-gray-200 rounded-2xl p-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex flex-col gap-1 flex-shrink-0">
+              <div key={item.id} className="bg-white border-2 border-gray-200 rounded-2xl p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex gap-0.5 flex-shrink-0">
                     <button type="button" onClick={() => handleMove(idx, 'up')} disabled={idx === 0}
-                      className="p-1 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-25">
+                      className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-25">
                       <ChevronUp className="w-4 h-4 text-gray-500" />
                     </button>
                     <button type="button" onClick={() => handleMove(idx, 'down')} disabled={idx === items.length - 1}
-                      className="p-1 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-25">
+                      className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-25">
                       <ChevronDown className="w-4 h-4 text-gray-500" />
                     </button>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <Globe className="w-5 h-5 text-gray-500" />
+                  <div className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <Globe className="w-4 h-4 text-gray-500" />
                   </div>
-                  <div className="flex-1 min-w-0 space-y-2">
-                    <input type="text"
-                      value={item.title}
-                      onChange={e => handleInlineChange(item.id, 'title', e.target.value)}
-                      className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-3 py-2 rounded-xl text-sm font-medium text-gray-900"
-                      placeholder="ボタン名" />
-                    <input type="url"
-                      value={item.url}
-                      onChange={e => handleInlineChange(item.id, 'url', e.target.value)}
-                      className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-3 py-2 rounded-xl text-xs text-gray-700"
-                      placeholder="https://example.com" />
-                  </div>
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    <button type="button" onClick={() => handleToggle(item.id)}
-                      className={`relative w-11 h-6 rounded-full transition-colors ${item.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
-                      <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${item.enabled ? 'translate-x-5' : ''}`} />
-                    </button>
-                    <button type="button" onClick={() => handleDelete(item.id)}
-                      className="p-2 hover:bg-red-50 rounded-xl transition-colors text-red-500">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+                  <div className="flex-1 min-w-0" />
+                  <button type="button" onClick={() => handleToggle(item.id)}
+                    className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${item.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
+                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${item.enabled ? 'translate-x-5' : ''}`} />
+                  </button>
+                  <button type="button" onClick={() => handleDelete(item.id)}
+                    className="p-1.5 hover:bg-red-50 rounded-xl transition-colors text-red-500 flex-shrink-0">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  <input type="text"
+                    value={item.title}
+                    onChange={e => handleInlineChange(item.id, 'title', e.target.value)}
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-3 py-2 rounded-xl text-sm font-medium text-gray-900"
+                    placeholder="ボタン名" />
+                  <input type="url"
+                    value={item.url}
+                    onChange={e => handleInlineChange(item.id, 'url', e.target.value)}
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-3 py-2 rounded-xl text-xs text-gray-700"
+                    placeholder="https://example.com" />
                 </div>
               </div>
             ))}
