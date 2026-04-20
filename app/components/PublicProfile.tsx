@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import Link from "next/link"
-import { User, Mail, Phone, Globe, Camera, Briefcase, Play, MapPin, Settings } from "lucide-react"
+import { User, Mail, Phone, Globe, Camera, Briefcase, Play, MapPin } from "lucide-react"
 import { supabase, type Profile, type Link } from "@/lib/supabase"
 
 const themes: Record<string, Record<string, string>> = {
@@ -100,16 +99,7 @@ export function PublicProfile() {
     <div className={`min-h-screen ${theme.background}`}>
       <div className="max-w-lg mx-auto">
         <div className={`${theme.cardBg} min-h-screen`}>
-          {/* 管理画面ボタン */}
-          <div className="flex justify-end px-6 pt-4">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              <span>管理</span>
-            </Link>
-          </div>
+          <div className="h-12" />
 
           <div className="flex justify-center mb-6">
             <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center ring-4 ring-white shadow-lg">

@@ -1,8 +1,9 @@
 'use client'
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { LayoutDashboard, User, Link as LinkIcon, Palette, Eye } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { LayoutDashboard, User, Link as LinkIcon, Palette, Eye, LogOut } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 const navItems = [
   { href: "/dashboard", label: "ダッシュボード", icon: LayoutDashboard },
@@ -13,6 +14,12 @@ const navItems = [
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -32,9 +39,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-sm ${
-                  isActive
-                    ? "bg-blue-50 text-blue-700 font-medium"
-                    : "text-gray-600 hover:bg-gray-100"
+                  isActive ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
@@ -43,7 +48,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-        <div className="px-4 py-4 border-t border-gray-200">
+        <div className="px-4 py-4 border-t border-gray-200 space-y-1">
           <Link
             href="/"
             className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-100 transition-colors"
@@ -51,6 +56,13 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <Eye className="w-5 h-5" />
             公開ページを見る
           </Link>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors"
+          >
+            <LogOut className="w-5 h-5" />
+            ログアウト
+          </button>
         </div>
       </aside>
 
@@ -77,17 +89,16 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               );
             })}
-            <Link
-              href="/"
-              className="flex flex-col items-center justify-center gap-1 text-xs text-gray-500"
+            <button
+              onClick={handleLogout}
+              className="flex flex-col items-center justify-center gap-1 text-xs text-red-400"
             >
-              <Eye className="w-5 h-5" />
-              <span>公開</span>
-            </Link>
+              <LogOut className="w-5 h-5" />
+              <span>ログアウト</span>
+            </button>
           </div>
         </nav>
 
-        {/* モバイルボトムナビの余白 */}
         <div className="md:hidden h-16" />
       </div>
     </div>
