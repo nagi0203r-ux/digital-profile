@@ -5,13 +5,21 @@ import { User, Mail, Phone, Globe, MapPin } from "lucide-react"
 import { FaLine, FaXTwitter, FaInstagram, FaYoutube, FaFacebook, FaTiktok } from "react-icons/fa6"
 import { supabase, type Profile, type Link } from "@/lib/supabase"
 
+const accentColorClass: Record<string, string> = {
+  blue:   "bg-blue-600",
+  cyan:   "bg-cyan-500",
+  green:  "bg-green-600",
+  purple: "bg-purple-600",
+  pink:   "bg-pink-600",
+  orange: "bg-orange-600",
+}
+
 const themes: Record<string, Record<string, string>> = {
   light: {
     background: "bg-gray-50",
     cardBg: "bg-white",
     text: "text-gray-900",
     textMuted: "text-gray-600",
-    buttonPrimary: "bg-blue-600 text-white",
     buttonSecondary: "bg-white text-gray-900 border-2 border-gray-200",
     border: "border-gray-200",
   },
@@ -20,7 +28,6 @@ const themes: Record<string, Record<string, string>> = {
     cardBg: "bg-gray-800",
     text: "text-white",
     textMuted: "text-gray-400",
-    buttonPrimary: "bg-cyan-500 text-white",
     buttonSecondary: "bg-gray-700 text-white border-2 border-gray-600",
     border: "border-gray-700",
   },
@@ -29,7 +36,6 @@ const themes: Record<string, Record<string, string>> = {
     cardBg: "bg-white/90 backdrop-blur",
     text: "text-gray-900",
     textMuted: "text-gray-600",
-    buttonPrimary: "bg-gradient-to-r from-purple-600 to-pink-600 text-white",
     buttonSecondary: "bg-white text-gray-900 border-2 border-purple-200",
     border: "border-purple-200",
   },
@@ -91,6 +97,8 @@ export function PublicProfile({ userId }: { userId: string }) {
   }
 
   const theme = themes[profile.theme] ?? themes.light
+  const accentBg = accentColorClass[profile.accent_color] ?? "bg-blue-600"
+  const buttonPrimary = `${accentBg} text-white`
   const snsLinks = links.filter(l => l.enabled && l.type === "sns")
   const customLinks = links.filter(l => l.enabled && l.type === "custom")
 
@@ -154,7 +162,7 @@ export function PublicProfile({ userId }: { userId: string }) {
           <div className="px-8 mb-8 space-y-3">
             <button
               onClick={handleSaveContact}
-              className={`w-full ${theme.buttonPrimary} py-3.5 rounded-lg transition-all shadow-sm hover:shadow-md`}
+              className={`w-full ${buttonPrimary} py-3.5 rounded-lg transition-all shadow-sm hover:shadow-md`}
             >
               連絡先を保存
             </button>
