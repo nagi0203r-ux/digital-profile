@@ -137,33 +137,47 @@ function LoginContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className={`min-h-screen flex items-center justify-center px-4 ${redirectTo === '/admin' ? 'bg-gray-900' : 'bg-gray-50'}`}>
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Digital Profile</h1>
-          <p className="text-sm text-gray-900 mt-2">デジタル名刺を作成・管理する</p>
-        </div>
+        {redirectTo === '/admin' ? (
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-semibold text-white">管理者ログイン</h1>
+            <p className="text-sm text-gray-400 mt-2">ユーザー管理画面</p>
+          </div>
+        ) : (
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-semibold text-gray-900">デジタル名刺</h1>
+            <p className="text-sm text-gray-600 mt-2">入力画面へログイン</p>
+          </div>
+        )}
 
-        <div className="flex bg-gray-200 rounded-2xl p-1 mb-6">
-          <button
-            onClick={() => { setMode('login'); setError("") }}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
-              mode === 'login' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
-            }`}
-          >
-            ログイン
-          </button>
-          <button
-            onClick={() => { setMode('register'); setError("") }}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
-              mode === 'register' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
-            }`}
-          >
-            新規登録
-          </button>
-        </div>
+        {redirectTo !== '/admin' && (
+          <div className="flex bg-gray-200 rounded-2xl p-1 mb-6">
+            <button
+              onClick={() => { setMode('login'); setError("") }}
+              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                mode === 'login' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              ログイン
+            </button>
+            <button
+              onClick={() => { setMode('register'); setError("") }}
+              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                mode === 'register' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              新規登録
+            </button>
+          </div>
+        )}
 
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-8">
+        <div className={`rounded-3xl border-2 p-8 ${redirectTo === '/admin' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
           {isLocked ? (
             <div className="text-center py-4">
               <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -178,8 +192,8 @@ function LoginContent() {
               </div>
             </div>
           ) : (
-            <form onSubmit={mode === 'login' ? handleLogin : handleRegister} className="space-y-5">
-              {mode === 'register' && (
+            <form onSubmit={mode === 'login' || redirectTo === '/admin' ? handleLogin : handleRegister} className="space-y-5">
+              {mode === 'register' && redirectTo !== '/admin' && (
                 <div>
                   <label className="block text-sm mb-2 text-gray-700">名前</label>
                   <input
