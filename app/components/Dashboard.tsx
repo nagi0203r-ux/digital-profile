@@ -79,8 +79,8 @@ export function Dashboard() {
               )}
             </div>
             <h3 className="text-xl mb-1">{profile?.name || "名前未設定"}</h3>
-            {profile?.title && <p className="text-gray-700">{profile.title}</p>}
-            {profile?.organization && <p className="text-sm text-gray-700">{profile.organization}</p>}
+            {profile?.organization && <p className="text-gray-700">{profile.organization}</p>}
+            {profile?.title && <p className="text-sm text-gray-700">{profile.title}</p>}
           </div>
 
           {userId && (
