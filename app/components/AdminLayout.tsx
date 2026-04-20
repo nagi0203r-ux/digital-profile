@@ -96,7 +96,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 fixed top-0 left-0 h-full z-20">
         <div className="px-6 py-6 border-b border-gray-200 flex-shrink-0">
           <Link href="/dashboard" className="text-lg font-semibold text-gray-900">
-            Digital Profile
+            デジタル名刺入力画面
           </Link>
         </div>
         <NavLinks />
@@ -105,7 +105,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       {/* ━━━ モバイル：固定トップヘッダー ━━━ */}
       <header className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-gray-200 z-30 flex items-center justify-between px-4">
         <Link href="/dashboard" className="text-base font-semibold text-gray-900">
-          Digital Profile
+          デジタル名刺入力画面
         </Link>
         <button
           onClick={() => setDrawerOpen(v => !v)}
