@@ -14,8 +14,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Digital Profile",
-  description: "あなたのデジタル名刺",
+  title: "デジタル名刺",
+  description: "デジタル名刺の作成・管理アプリ",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "デジタル名刺",
+  },
+  icons: {
+    apple: "/icons/icon-192.png",
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +36,7 @@ export default function RootLayout({
     <html
       lang="ja"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
         {children}
