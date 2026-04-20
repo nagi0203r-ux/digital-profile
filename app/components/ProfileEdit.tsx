@@ -136,7 +136,7 @@ export function ProfileEdit() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label>自己紹介</label>
-                  <span className="text-sm text-gray-500">{formData.bio.length}/200文字</span>
+                  <span className="text-sm text-gray-700">{formData.bio.length}/200文字</span>
                 </div>
                 <textarea name="bio" value={formData.bio} onChange={handleChange}
                   rows={4} maxLength={200}

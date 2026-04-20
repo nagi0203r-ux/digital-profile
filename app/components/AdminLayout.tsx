@@ -96,7 +96,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               return (
                 <Link key={item.href} href={item.href}
                   className={`flex flex-col items-center justify-center gap-0.5 text-xs transition-colors ${
-                    isActive ? "text-blue-600" : "text-gray-500"
+                    isActive ? "text-blue-600" : "text-gray-900"
                   }`}>
                   <Icon className="w-4 h-4" />
                   <span className="truncate text-[9px] leading-tight px-0.5">{item.label.replace("プロフィール", "").replace("リンク", "").replace("管理", "").replace("設定", "").replace("変更", "")}</span>
@@ -104,7 +104,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               )
             })}
             <Link href={publicUrl} target="_blank"
-              className="flex flex-col items-center justify-center gap-0.5 text-xs text-gray-500">
+              className="flex flex-col items-center justify-center gap-0.5 text-xs text-gray-900">
               <Eye className="w-4 h-4" />
               <span className="text-[9px]">公開</span>
             </Link>

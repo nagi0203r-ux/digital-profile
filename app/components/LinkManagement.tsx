@@ -43,15 +43,15 @@ function DraggableLink({ link, index, moveLink, onToggle, onDelete }: {
     <div ref={n => { drag(drop(n)) }}
       className={`bg-white border-2 border-gray-200 rounded-2xl p-4 transition-all ${isDragging ? 'opacity-50' : ''}`}>
       <div className="flex items-center gap-3">
-        <div className="cursor-grab active:cursor-grabbing text-gray-400"><GripVertical className="w-5 h-5" /></div>
-        <div className="text-gray-500">{getIcon(link.icon)}</div>
+        <div className="cursor-grab active:cursor-grabbing text-gray-700"><GripVertical className="w-5 h-5" /></div>
+        <div className="text-gray-900">{getIcon(link.icon)}</div>
         <div className="flex-1 min-w-0">
-          <div className="text-gray-500 text-sm mb-1">
+          <div className="text-gray-700 text-sm mb-1">
             {link.type === "sns" ? "SNS" : "カスタムリンク"}
             {link.banner && <span className="ml-2 text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">バナー付き</span>}
           </div>
-          <div className="font-medium truncate">{link.title}</div>
-          <div className="text-sm text-gray-500 truncate">{link.url}</div>
+          <div className="font-medium truncate text-gray-900">{link.title}</div>
+          <div className="text-sm text-gray-700 truncate">{link.url}</div>
         </div>
         <button type="button" onClick={() => onToggle(link.id)}
           className={`relative w-12 h-7 rounded-full transition-colors ${link.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
@@ -172,7 +172,7 @@ export function LinkManagement() {
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
                 <Plus className="w-5 h-5" /><span>新しいリンクを追加</span>
               </button>
-              <p className="text-xs text-gray-500 text-center mt-2">
+              <p className="text-xs text-gray-700 text-center mt-2">
                 SNS: {snsCount}/6 | カスタム: 無制限
               </p>
             </div>

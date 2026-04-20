@@ -65,7 +65,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold text-gray-900">Digital Profile</h1>
-          <p className="text-sm text-gray-500 mt-2">デジタル名刺を作成・管理する</p>
+          <p className="text-sm text-gray-900 mt-2">デジタル名刺を作成・管理する</p>
         </div>
 
         {/* タブ */}
@@ -125,7 +125,7 @@ export default function LoginPage() {
                 minLength={6}
               />
               {mode === 'register' && (
-                <p className="text-xs text-gray-400 mt-1">6文字以上</p>
+                <p className="text-xs text-gray-700 mt-1">6文字以上</p>
               )}
             </div>
 
