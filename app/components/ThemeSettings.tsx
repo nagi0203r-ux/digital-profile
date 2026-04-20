@@ -12,8 +12,6 @@ const themeOptions = [
     preview: { bg: "bg-gray-50", card: "bg-white", primary: "bg-blue-600" } },
   { id: "dark", name: "ダーク", description: "洗練されたダークテーマ",
     preview: { bg: "bg-gray-900", card: "bg-gray-800", primary: "bg-cyan-500" } },
-  { id: "gradient", name: "グラデーション", description: "華やかなグラデーション",
-    preview: { bg: "bg-gradient-to-br from-purple-50 to-pink-50", card: "bg-white", primary: "bg-gradient-to-r from-purple-600 to-pink-600" } },
   { id: "lime", name: "黄緑", description: "フレッシュな黄緑背景",
     preview: { bg: "bg-gradient-to-br from-lime-300 to-emerald-100", card: "bg-white/80", primary: "bg-lime-500" } },
   { id: "yellow", name: "黄色", description: "明るくポップな黄色背景",
