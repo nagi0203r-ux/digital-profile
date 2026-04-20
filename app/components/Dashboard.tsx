@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
 
 export function Dashboard() {
-  const [profile, setProfile] = useState<{ name: string; title: string; organization: string } | null>(null)
+  const [profile, setProfile] = useState<{ name: string; title: string; organization: string; avatar_url: string } | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
   const [snsCount, setSnsCount] = useState(0)
   const [contentCount, setContentCount] = useState(0)
@@ -20,7 +20,7 @@ export function Dashboard() {
       setUserId(user.id)
 
       const { data: profileData } = await supabase
-        .from('profiles').select('name, title, organization').eq('user_id', user.id).single()
+        .from('profiles').select('name, title, organization, avatar_url').eq('user_id', user.id).single()
       if (profileData) setProfile(profileData)
 
       const { count: sns } = await supabase
@@ -68,8 +68,15 @@ export function Dashboard() {
           </div>
 
           <div className="text-center mb-6">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-              <User className="w-12 h-12 text-white" />
+            <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
+              {profile?.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={profile.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                  <User className="w-12 h-12 text-white" />
+                </div>
+              )}
             </div>
             <h3 className="text-xl mb-1">{profile?.name || "名前未設定"}</h3>
             {profile?.title && <p className="text-gray-700">{profile.title}</p>}

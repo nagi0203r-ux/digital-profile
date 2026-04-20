@@ -5,13 +5,14 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import {
   LayoutDashboard, User, Palette, Eye, LogOut,
-  Share2, Images, KeyRound, Menu, X,
+  Share2, Images, KeyRound, Menu, X, Globe,
 } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 
 const navItems = [
   { href: "/dashboard",       label: "ダッシュボード",   icon: LayoutDashboard },
   { href: "/edit-profile",    label: "プロフィール編集", icon: User },
+  { href: "/edit-company",    label: "会社URL管理",      icon: Globe },
   { href: "/edit-sns",        label: "SNSリンク管理",    icon: Share2 },
   { href: "/edit-content",    label: "コンテンツ管理",   icon: Images },
   { href: "/theme-settings",  label: "デザイン設定",     icon: Palette },

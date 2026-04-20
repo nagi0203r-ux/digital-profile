@@ -99,6 +99,7 @@ export function PublicProfile({ userId }: { userId: string }) {
   const theme = themes[profile.theme] ?? themes.light
   const accentBg = accentColorClass[profile.accent_color] ?? "bg-blue-600"
   const buttonPrimary = `${accentBg} text-white`
+  const companyLinks = links.filter(l => l.enabled && l.type === "company")
   const snsLinks = links.filter(l => l.enabled && l.type === "sns")
   const customLinks = links.filter(l => l.enabled && l.type === "custom")
 
@@ -186,6 +187,23 @@ export function PublicProfile({ userId }: { userId: string }) {
               )}
             </div>
           </div>
+
+          {companyLinks.length > 0 && (
+            <div className="px-8 pb-6">
+              <div className={`border-t ${theme.border} pt-6 mb-4`}>
+                <h3 className={`text-sm ${theme.textMuted}`}>会社情報</h3>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {companyLinks.map(link => (
+                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
+                    className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-xl transition-all hover:shadow-sm`}>
+                    <Globe className="w-4 h-4 flex-shrink-0" />
+                    <span className="text-sm font-medium truncate">{link.title}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
           {snsLinks.length > 0 && (
             <div className="px-8 pb-8">

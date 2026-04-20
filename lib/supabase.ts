@@ -27,7 +27,7 @@ export type Link = {
   url: string
   icon: string
   enabled: boolean
-  type: 'sns' | 'custom'
+  type: 'sns' | 'custom' | 'company'
   banner: string
   description: string
   order_index: number
