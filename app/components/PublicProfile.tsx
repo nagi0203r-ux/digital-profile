@@ -155,12 +155,12 @@ export function PublicProfile({ userId }: { userId: string }) {
           )}
 
           <div className="px-8 mb-6 space-y-3">
-            {profile.phone && (
+            {profile.phone && (profile.show_phone ?? true) && (
               <div className={`flex items-center gap-3 text-sm ${theme.textMuted}`}>
                 <Phone className="w-4 h-4" /><span>{profile.phone}</span>
               </div>
             )}
-            {profile.email && (
+            {profile.email && (profile.show_email ?? true) && (
               <div className={`flex items-center gap-3 text-sm ${theme.textMuted}`}>
                 <Mail className="w-4 h-4" /><span>{profile.email}</span>
               </div>
