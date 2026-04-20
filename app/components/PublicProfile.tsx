@@ -193,12 +193,12 @@ export function PublicProfile({ userId }: { userId: string }) {
               <div className={`border-t ${theme.border} pt-6 mb-4`}>
                 <h3 className={`text-sm ${theme.textMuted}`}>会社情報</h3>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
                 {companyLinks.map(link => (
                   <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
-                    className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-xl transition-all hover:shadow-sm`}>
+                    className={`flex items-center gap-3 ${theme.buttonSecondary} px-4 py-3.5 rounded-xl transition-all hover:shadow-sm`}>
                     <Globe className="w-4 h-4 flex-shrink-0" />
-                    <span className="text-sm font-medium truncate">{link.title}</span>
+                    <span className="text-sm font-medium">{link.title}</span>
                   </a>
                 ))}
               </div>
