@@ -38,7 +38,7 @@ export function AdminPanel() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user || user.email !== ADMIN_EMAIL) {
-        router.replace("/login")
+        router.replace("/login?redirect=/admin")
         return
       }
       await fetchProfiles()
