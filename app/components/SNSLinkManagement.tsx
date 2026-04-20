@@ -113,6 +113,7 @@ export function SNSLinkManagement() {
         supabase.from('links').update({
           title: item.title,
           url: item.url,
+          icon: item.icon,
           enabled: item.enabled,
           order_index: idx,
         }).eq('id', item.id)
@@ -122,7 +123,7 @@ export function SNSLinkManagement() {
     setSaving(false)
   }
 
-  const handleInlineChange = (id: string, field: 'title' | 'url', value: string) => {
+  const handleInlineChange = (id: string, field: 'title' | 'url' | 'icon', value: string) => {
     setItems(prev => prev.map(i => i.id === id ? { ...i, [field]: value } : i))
   }
 
@@ -255,6 +256,20 @@ export function SNSLinkManagement() {
                     </button>
                   </div>
                   <div className="space-y-2">
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {PLATFORMS.map(p => (
+                        <button key={p.id} type="button"
+                          onClick={() => handleInlineChange(item.id, 'icon', p.id)}
+                          className={`flex items-center gap-1.5 px-2 py-2 rounded-xl border-2 transition-all ${
+                            item.icon === p.id
+                              ? 'border-blue-600 bg-blue-50'
+                              : 'border-gray-200 hover:border-gray-300 bg-white'
+                          }`}>
+                          <span className={p.color}><p.Icon className="w-3.5 h-3.5 flex-shrink-0" /></span>
+                          <span className="text-xs text-gray-900 truncate">{p.name}</span>
+                        </button>
+                      ))}
+                    </div>
                     <input type="text"
                       value={item.title}
                       onChange={e => handleInlineChange(item.id, 'title', e.target.value)}
