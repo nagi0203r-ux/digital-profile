@@ -18,6 +18,9 @@ export type Profile = {
   theme: string
   accent_color: string
   avatar_url: string
+  show_phone: boolean
+  show_email: boolean
+  show_save_contact: boolean
 }
 
 export type Link = {

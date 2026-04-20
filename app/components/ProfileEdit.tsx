@@ -13,9 +13,12 @@ export function ProfileEdit() {
   const [avatarUrl, setAvatarUrl] = useState("")
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [formData, setFormData] = useState({
-    name: "", title: "", organization: "", location: "",
+    name: "", organization: "", title: "", location: "",
     bio: "", phone: "", email: "", bioAlign: "center" as "center" | "left",
   })
+  const [showPhone, setShowPhone] = useState(true)
+  const [showEmail, setShowEmail] = useState(true)
+  const [showSaveContact, setShowSaveContact] = useState(true)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -30,9 +33,12 @@ export function ProfileEdit() {
       if (data) {
         setProfileId(data.id)
         setAvatarUrl(data.avatar_url ?? "")
+        setShowPhone(data.show_phone ?? true)
+        setShowEmail(data.show_email ?? true)
+        setShowSaveContact(data.show_save_contact ?? true)
         setFormData({
-          name: data.name ?? "", title: data.title ?? "",
-          organization: data.organization ?? "", location: data.location ?? "",
+          name: data.name ?? "", organization: data.organization ?? "",
+          title: data.title ?? "", location: data.location ?? "",
           bio: data.bio ?? "", phone: data.phone ?? "",
           email: data.email ?? "", bioAlign: data.bio_align ?? "center",
         })
@@ -101,10 +107,12 @@ export function ProfileEdit() {
     setSaving(true)
 
     const payload = {
-      name: formData.name, title: formData.title,
-      organization: formData.organization, location: formData.location,
+      name: formData.name, organization: formData.organization,
+      title: formData.title, location: formData.location,
       bio: formData.bio, bio_align: formData.bioAlign,
       phone: formData.phone, email: formData.email,
+      show_phone: showPhone, show_email: showEmail,
+      show_save_contact: showSaveContact,
     }
 
     let error
@@ -215,8 +223,8 @@ export function ProfileEdit() {
             <div className="space-y-5">
               {[
                 { label: "名前", name: "name", placeholder: "山田 太郎" },
+                { label: "会社名", name: "organization", placeholder: "株式会社サンプル" },
                 { label: "肩書き", name: "title", placeholder: "Webデザイナー" },
-                { label: "所属", name: "organization", placeholder: "株式会社サンプル" },
                 { label: "場所", name: "location", placeholder: "東京都" },
               ].map(f => (
                 <div key={f.name}>
@@ -274,6 +282,26 @@ export function ProfileEdit() {
                   className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                   placeholder="you@example.com" />
               </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
+            <h2 className="mb-2">公開ページの表示設定</h2>
+            <p className="text-sm text-gray-500 mb-6">オフにすると公開ページに表示されません</p>
+            <div className="space-y-4">
+              {[
+                { label: "「連絡先を保存」ボタン", value: showSaveContact, setter: setShowSaveContact },
+                { label: "「電話」ボタン", value: showPhone, setter: setShowPhone },
+                { label: "「メール」ボタン", value: showEmail, setter: setShowEmail },
+              ].map(({ label, value, setter }) => (
+                <div key={label} className="flex items-center justify-between">
+                  <span className="text-sm text-gray-900">{label}</span>
+                  <button type="button" onClick={() => setter(!value)}
+                    className={`relative w-12 h-7 rounded-full transition-colors ${value ? 'bg-blue-600' : 'bg-gray-200'}`}>
+                    <div className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-transform ${value ? 'translate-x-5' : ''}`} />
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
 

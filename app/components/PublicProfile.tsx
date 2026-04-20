@@ -168,24 +168,28 @@ export function PublicProfile({ userId }: { userId: string }) {
           </div>
 
           <div className="px-8 mb-8 space-y-3">
-            <button
-              onClick={handleSaveContact}
-              className={`w-full ${buttonPrimary} py-3.5 rounded-lg transition-all shadow-sm hover:shadow-md`}
-            >
-              連絡先を保存
-            </button>
-            <div className="grid grid-cols-2 gap-3">
-              {profile.phone && (
-                <a href={`tel:${profile.phone}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
-                  <Phone className="w-4 h-4" /><span className="text-sm">電話</span>
-                </a>
-              )}
-              {profile.email && (
-                <a href={`mailto:${profile.email}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
-                  <Mail className="w-4 h-4" /><span className="text-sm">メール</span>
-                </a>
-              )}
-            </div>
+            {(profile.show_save_contact ?? true) && (
+              <button
+                onClick={handleSaveContact}
+                className={`w-full ${buttonPrimary} py-3.5 rounded-lg transition-all shadow-sm hover:shadow-md`}
+              >
+                連絡先を保存
+              </button>
+            )}
+            {((profile.show_phone ?? true) || (profile.show_email ?? true)) && (
+              <div className="grid grid-cols-2 gap-3">
+                {profile.phone && (profile.show_phone ?? true) && (
+                  <a href={`tel:${profile.phone}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
+                    <Phone className="w-4 h-4" /><span className="text-sm">電話</span>
+                  </a>
+                )}
+                {profile.email && (profile.show_email ?? true) && (
+                  <a href={`mailto:${profile.email}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
+                    <Mail className="w-4 h-4" /><span className="text-sm">メール</span>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
 
           {companyLinks.length > 0 && (
