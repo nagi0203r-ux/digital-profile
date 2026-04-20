@@ -43,7 +43,7 @@ function getIcon(iconName: string, className = "w-5 h-5") {
   }
 }
 
-export function PublicProfile() {
+export function PublicProfile({ userId }: { userId: string }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [links, setLinks] = useState<Link[]>([])
   const [loading, setLoading] = useState(true)
@@ -53,12 +53,13 @@ export function PublicProfile() {
       const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
-        .limit(1)
+        .eq('user_id', userId)
         .single()
 
       const { data: linksData } = await supabase
         .from('links')
         .select('*')
+        .eq('user_id', userId)
         .order('order_index')
 
       if (profileData) setProfile(profileData)
@@ -66,7 +67,7 @@ export function PublicProfile() {
       setLoading(false)
     }
     load()
-  }, [])
+  }, [userId])
 
   if (loading) {
     return (
@@ -76,7 +77,13 @@ export function PublicProfile() {
     )
   }
 
-  if (!profile) return null
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-500">プロフィールが見つかりません</p>
+      </div>
+    )
+  }
 
   const theme = themes[profile.theme] ?? themes.light
   const companyLinks = links.filter(l => l.enabled && l.type === "company")
@@ -109,27 +116,35 @@ export function PublicProfile() {
 
           <div className="text-center px-8 mb-6">
             <h1 className={`text-2xl mb-2 ${theme.text}`}>{profile.name}</h1>
-            <p className={`${theme.textMuted} mb-1`}>{profile.title}</p>
-            <p className={`${theme.textMuted} mb-3`}>{profile.organization}</p>
-            <div className={`flex items-center justify-center gap-1 ${theme.textMuted} text-sm`}>
-              <MapPin className="w-4 h-4" />
-              <span>{profile.location}</span>
-            </div>
+            {profile.title && <p className={`${theme.textMuted} mb-1`}>{profile.title}</p>}
+            {profile.organization && <p className={`${theme.textMuted} mb-3`}>{profile.organization}</p>}
+            {profile.location && (
+              <div className={`flex items-center justify-center gap-1 ${theme.textMuted} text-sm`}>
+                <MapPin className="w-4 h-4" />
+                <span>{profile.location}</span>
+              </div>
+            )}
           </div>
 
-          <div className="px-8 mb-8">
-            <p className={`${theme.text} ${profile.bio_align === "center" ? "text-center" : "text-left"} leading-relaxed whitespace-pre-line text-sm`}>
-              {profile.bio}
-            </p>
-          </div>
+          {profile.bio && (
+            <div className="px-8 mb-8">
+              <p className={`${theme.text} ${profile.bio_align === "center" ? "text-center" : "text-left"} leading-relaxed whitespace-pre-line text-sm`}>
+                {profile.bio}
+              </p>
+            </div>
+          )}
 
           <div className="px-8 mb-6 space-y-3">
-            <div className={`flex items-center gap-3 text-sm ${theme.textMuted}`}>
-              <Phone className="w-4 h-4" /><span>{profile.phone}</span>
-            </div>
-            <div className={`flex items-center gap-3 text-sm ${theme.textMuted}`}>
-              <Mail className="w-4 h-4" /><span>{profile.email}</span>
-            </div>
+            {profile.phone && (
+              <div className={`flex items-center gap-3 text-sm ${theme.textMuted}`}>
+                <Phone className="w-4 h-4" /><span>{profile.phone}</span>
+              </div>
+            )}
+            {profile.email && (
+              <div className={`flex items-center gap-3 text-sm ${theme.textMuted}`}>
+                <Mail className="w-4 h-4" /><span>{profile.email}</span>
+              </div>
+            )}
           </div>
 
           <div className="px-8 mb-8 space-y-3">
@@ -140,12 +155,16 @@ export function PublicProfile() {
               連絡先を保存
             </button>
             <div className="grid grid-cols-2 gap-3">
-              <a href={`tel:${profile.phone}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
-                <Phone className="w-4 h-4" /><span className="text-sm">電話</span>
-              </a>
-              <a href={`mailto:${profile.email}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
-                <Mail className="w-4 h-4" /><span className="text-sm">メール</span>
-              </a>
+              {profile.phone && (
+                <a href={`tel:${profile.phone}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
+                  <Phone className="w-4 h-4" /><span className="text-sm">電話</span>
+                </a>
+              )}
+              {profile.email && (
+                <a href={`mailto:${profile.email}`} className={`flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}>
+                  <Mail className="w-4 h-4" /><span className="text-sm">メール</span>
+                </a>
+              )}
             </div>
           </div>
 

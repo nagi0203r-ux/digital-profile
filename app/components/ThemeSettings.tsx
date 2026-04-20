@@ -27,6 +27,7 @@ const accentColors = [
 
 export function ThemeSettings() {
   const [profileId, setProfileId] = useState<string | null>(null)
+  const [userId, setUserId] = useState<string | null>(null)
   const [selectedTheme, setSelectedTheme] = useState("light")
   const [selectedAccent, setSelectedAccent] = useState("blue")
   const [loading, setLoading] = useState(true)
@@ -34,7 +35,10 @@ export function ThemeSettings() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase.from('profiles').select('id, theme, accent_color').limit(1).single()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      setUserId(user.id)
+      const { data } = await supabase.from('profiles').select('id, theme, accent_color').eq('user_id', user.id).single()
       if (data) {
         setProfileId(data.id)
         setSelectedTheme(data.theme)
@@ -49,14 +53,8 @@ export function ThemeSettings() {
     if (!profileId) return
     setSaving(true)
     const { error } = await supabase.from('profiles')
-      .update({ theme: selectedTheme, accent_color: selectedAccent })
-      .eq('id', profileId)
-
-    if (error) {
-      toast.error("保存に失敗しました")
-    } else {
-      toast.success("デザインを保存しました")
-    }
+      .update({ theme: selectedTheme, accent_color: selectedAccent }).eq('id', profileId)
+    if (error) { toast.error("保存に失敗しました") } else { toast.success("デザインを保存しました") }
     setSaving(false)
   }
 
@@ -134,7 +132,11 @@ export function ThemeSettings() {
         <div className="bg-white rounded-3xl border-2 border-gray-200 p-8 mb-6">
           <div className="flex items-center justify-between mb-6">
             <h2>プレビュー</h2>
-            <Link href="/" className="text-sm text-blue-600 hover:text-blue-700">実際のページを見る</Link>
+            {userId && (
+              <Link href={`/p/${userId}`} target="_blank" className="text-sm text-blue-600 hover:text-blue-700">
+                実際のページを見る
+              </Link>
+            )}
           </div>
           <div className="bg-gray-100 rounded-2xl p-8 flex justify-center">
             <div className="w-full max-w-sm bg-white rounded-3xl shadow-xl overflow-hidden">

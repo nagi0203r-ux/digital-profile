@@ -19,16 +19,14 @@ function getIcon(iconName: string) {
 }
 
 function DraggableLink({ link, index, moveLink, onToggle, onDelete }: {
-  link: LinkItem
-  index: number
+  link: LinkItem; index: number
   moveLink: (from: number, to: number) => void
   onToggle: (id: string) => void
   onDelete: (id: string) => void
 }) {
   const [{ isDragging }, drag] = useDrag({
-    type: 'link',
-    item: { index },
-    collect: (m) => ({ isDragging: m.isDragging() }),
+    type: 'link', item: { index },
+    collect: m => ({ isDragging: m.isDragging() }),
   })
   const [, drop] = useDrop({
     accept: 'link',
@@ -38,12 +36,10 @@ function DraggableLink({ link, index, moveLink, onToggle, onDelete }: {
   })
 
   return (
-    <div ref={(n) => { drag(drop(n)) }}
+    <div ref={n => { drag(drop(n)) }}
       className={`bg-white border-2 border-gray-200 rounded-2xl p-4 transition-all ${isDragging ? 'opacity-50' : ''}`}>
       <div className="flex items-center gap-3">
-        <div className="cursor-grab active:cursor-grabbing text-gray-400">
-          <GripVertical className="w-5 h-5" />
-        </div>
+        <div className="cursor-grab active:cursor-grabbing text-gray-400"><GripVertical className="w-5 h-5" /></div>
         <div className="text-gray-500">{getIcon(link.icon)}</div>
         <div className="flex-1 min-w-0">
           <div className="text-gray-500 text-sm mb-1">
@@ -67,7 +63,7 @@ function DraggableLink({ link, index, moveLink, onToggle, onDelete }: {
 }
 
 export function LinkManagement() {
-  const [profileId, setProfileId] = useState<string | null>(null)
+  const [userId, setUserId] = useState<string | null>(null)
   const [links, setLinks] = useState<LinkItem[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -76,12 +72,11 @@ export function LinkManagement() {
 
   useEffect(() => {
     async function load() {
-      const { data: profile } = await supabase.from('profiles').select('id').limit(1).single()
-      if (profile) {
-        setProfileId(profile.id)
-        const { data: linksData } = await supabase.from('links').select('*').eq('profile_id', profile.id).order('order_index')
-        if (linksData) setLinks(linksData)
-      }
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      setUserId(user.id)
+      const { data } = await supabase.from('links').select('*').eq('user_id', user.id).order('order_index')
+      if (data) setLinks(data)
       setLoading(false)
     }
     load()
@@ -112,17 +107,13 @@ export function LinkManagement() {
 
   const handleAddLink = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!profileId) return
+    if (!userId) return
     if (newLink.type === "company" && companyCount >= 6) { toast.error("会社URLは最大6つまでです"); return }
     if (newLink.type === "sns" && snsCount >= 6) { toast.error("SNSは最大6つまでです"); return }
     if (!newLink.title || !newLink.url) return
 
-    const order_index = links.length
     const { data, error } = await supabase.from('links').insert({
-      profile_id: profileId,
-      ...newLink,
-      enabled: true,
-      order_index,
+      user_id: userId, ...newLink, enabled: true, order_index: links.length,
     }).select().single()
 
     if (data) {
@@ -137,10 +128,9 @@ export function LinkManagement() {
 
   const handleSave = async () => {
     setSaving(true)
-    const updates = links.map((link, i) =>
+    await Promise.all(links.map((link, i) =>
       supabase.from('links').update({ order_index: i }).eq('id', link.id)
-    )
-    await Promise.all(updates)
+    ))
     toast.success("変更を保存しました")
     setSaving(false)
   }
