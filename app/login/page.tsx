@@ -39,20 +39,22 @@ export default function LoginPage() {
       return
     }
 
-    if (data.user) {
-      // プロフィールを自動作成
+    // メール確認が必要な場合（sessionがない）
+    if (data.user && !data.session) {
+      setError("")
+      setLoading(false)
+      alert("確認メールを送信しました。メールのリンクをクリックしてからログインしてください。")
+      setMode('login')
+      return
+    }
+
+    if (data.user && data.session) {
       await supabase.from('profiles').insert({
         user_id: data.user.id,
         name: name || "名前未設定",
-        title: "",
-        organization: "",
-        location: "",
-        bio: "",
-        bio_align: "center",
-        phone: "",
-        email: email,
-        theme: "light",
-        accent_color: "blue",
+        title: "", organization: "", location: "", bio: "",
+        bio_align: "center", phone: "", email: email,
+        theme: "light", accent_color: "blue",
       })
       router.push("/dashboard")
     }
@@ -95,7 +97,7 @@ export default function LoginPage() {
                   type="text"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                   placeholder="山田 太郎"
                 />
               </div>
@@ -106,7 +108,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                 placeholder="you@example.com"
                 required
               />
@@ -117,7 +119,7 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                 placeholder="••••••••"
                 required
                 minLength={6}
