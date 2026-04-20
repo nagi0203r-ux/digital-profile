@@ -126,7 +126,15 @@ export function ContentManagement() {
       order_index: items.length,
     }).select().single()
 
-    if (error) { toast.error("追加に失敗しました"); return }
+    if (error) {
+      console.error("content insert error:", error)
+      if (error.message?.includes('description')) {
+        toast.error("Supabaseに「description」カラムを追加してください（SQL Editorで実行）")
+      } else {
+        toast.error("追加に失敗しました: " + error.message)
+      }
+      return
+    }
     if (data) {
       setItems(prev => [...prev, data])
       setForm(emptyForm)

@@ -9,12 +9,12 @@ import { supabase } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
 
 const SNS_PLATFORMS = [
-  { id: "line", name: "LINE", Icon: FaLine, color: "text-green-500", placeholder: "https://line.me/ti/p/xxxxx" },
-  { id: "instagram", name: "Instagram", Icon: FaInstagram, color: "text-pink-500", placeholder: "https://instagram.com/username" },
-  { id: "youtube", name: "YouTube", Icon: FaYoutube, color: "text-red-500", placeholder: "https://youtube.com/@channel" },
-  { id: "facebook", name: "Facebook", Icon: FaFacebook, color: "text-blue-600", placeholder: "https://facebook.com/username" },
-  { id: "tiktok", name: "TikTok", Icon: FaTiktok, color: "text-gray-900", placeholder: "https://tiktok.com/@username" },
-  { id: "x", name: "X (Twitter)", Icon: FaXTwitter, color: "text-gray-900", placeholder: "https://x.com/username" },
+  { id: "line",      name: "LINE",       Icon: FaLine,      color: "text-green-500", placeholder: "https://line.me/ti/p/xxxxx" },
+  { id: "instagram", name: "Instagram",  Icon: FaInstagram, color: "text-pink-500",  placeholder: "https://instagram.com/username" },
+  { id: "youtube",   name: "YouTube",    Icon: FaYoutube,   color: "text-red-500",   placeholder: "https://youtube.com/@channel" },
+  { id: "facebook",  name: "Facebook",   Icon: FaFacebook,  color: "text-blue-600",  placeholder: "https://facebook.com/username" },
+  { id: "tiktok",    name: "TikTok",     Icon: FaTiktok,    color: "text-gray-900",  placeholder: "https://tiktok.com/@username" },
+  { id: "x",         name: "X (Twitter)",Icon: FaXTwitter,  color: "text-gray-900",  placeholder: "https://x.com/username" },
 ]
 
 type SnsState = Record<string, { url: string; enabled: boolean; id: string | null }>
@@ -33,51 +33,83 @@ export function SNSLinkManagement() {
       if (!user) return
       setUserId(user.id)
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('links').select('*').eq('user_id', user.id).eq('type', 'sns')
+
+      if (error) {
+        toast.error("データの読み込みに失敗しました")
+        setLoading(false)
+        return
+      }
+
       if (data) {
-        const next = { ...state }
-        for (const link of data) {
-          if (next[link.icon]) {
-            next[link.icon] = { url: link.url, enabled: link.enabled, id: link.id }
+        setState(prev => {
+          const next = { ...prev }
+          for (const link of data) {
+            if (next[link.icon]) {
+              next[link.icon] = { url: link.url, enabled: link.enabled, id: link.id }
+            }
           }
-        }
-        setState(next)
+          return next
+        })
       }
       setLoading(false)
     }
     load()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSave = async () => {
     if (!userId) return
     setSaving(true)
+    let hasError = false
 
     for (const platform of SNS_PLATFORMS) {
       const entry = state[platform.id]
       const url = entry.url.trim()
 
       if (entry.id) {
+        // 既存レコードの更新 or 削除
         if (url) {
-          await supabase.from('links').update({
-            url, enabled: entry.enabled, title: platform.name,
+          const { error } = await supabase.from('links').update({
+            url,
+            enabled: entry.enabled,
+            title: platform.name,
           }).eq('id', entry.id)
+          if (error) { hasError = true; console.error(platform.name, error) }
         } else {
-          await supabase.from('links').delete().eq('id', entry.id)
-          setState(prev => ({ ...prev, [platform.id]: { url: "", enabled: true, id: null } }))
+          const { error } = await supabase.from('links').delete().eq('id', entry.id)
+          if (!error) {
+            setState(prev => ({ ...prev, [platform.id]: { url: "", enabled: true, id: null } }))
+          } else {
+            hasError = true
+          }
         }
       } else if (url) {
-        const { data } = await supabase.from('links').insert({
-          user_id: userId, title: platform.name, url,
-          icon: platform.id, enabled: entry.enabled,
-          type: 'sns', banner: '', description: '', order_index: SNS_PLATFORMS.findIndex(p => p.id === platform.id),
+        // 新規追加
+        const { data, error } = await supabase.from('links').insert({
+          user_id: userId,
+          title: platform.name,
+          url,
+          icon: platform.id,
+          enabled: entry.enabled,
+          type: 'sns',
+          order_index: SNS_PLATFORMS.findIndex(p => p.id === platform.id),
         }).select().single()
-        if (data) setState(prev => ({ ...prev, [platform.id]: { ...prev[platform.id], id: data.id } }))
+
+        if (error) {
+          hasError = true
+          console.error(platform.name, error)
+        } else if (data) {
+          setState(prev => ({ ...prev, [platform.id]: { ...prev[platform.id], id: data.id } }))
+        }
       }
     }
 
-    toast.success("SNSリンクを保存しました")
+    if (hasError) {
+      toast.error("一部の保存に失敗しました。時間をおいて再試行してください。")
+    } else {
+      toast.success("SNSリンクを保存しました")
+    }
     setSaving(false)
   }
 
@@ -104,18 +136,18 @@ export function SNSLinkManagement() {
 
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 mb-6">
-          <p className="text-sm text-blue-900">URLを入力したSNSのみ公開ページに表示されます。空白のSNSは非表示になります。</p>
+          <p className="text-sm text-blue-900">URLを入力したSNSのみ公開ページに表示されます。空欄は非表示になります。</p>
         </div>
 
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-6 space-y-4">
+        <div className="bg-white rounded-3xl border-2 border-gray-200 p-6 space-y-5">
           {SNS_PLATFORMS.map(({ id, name, Icon, color, placeholder }) => {
             const entry = state[id]
             return (
               <div key={id} className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 ${color}`}>
+                <div className={`w-11 h-11 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 ${color}`}>
                   <Icon style={{ width: "1.25rem", height: "1.25rem" }} />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-700 mb-1">{name}</p>
                   <input
                     type="url"
