@@ -71,6 +71,14 @@ const themes: Record<string, Record<string, string>> = {
     buttonSecondary: "bg-white/70 text-gray-900 border-2 border-sky-300",
     border: "border-sky-200",
   },
+  charcoal: {
+    background: "bg-gradient-to-br from-gray-600 via-gray-500 to-gray-600",
+    cardBg: "bg-gray-700/90 backdrop-blur",
+    text: "text-white",
+    textMuted: "text-gray-200",
+    buttonSecondary: "bg-gray-600 text-white border-2 border-gray-400",
+    border: "border-gray-500",
+  },
 }
 
 function getIcon(iconName: string, className = "w-5 h-5") {

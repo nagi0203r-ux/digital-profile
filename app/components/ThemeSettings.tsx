@@ -20,6 +20,8 @@ const themeOptions = [
     preview: { bg: "bg-gradient-to-br from-orange-300 to-amber-100", card: "bg-white/80", primary: "bg-orange-500" } },
   { id: "sky", name: "水色", description: "さわやかな水色背景",
     preview: { bg: "bg-gradient-to-br from-sky-300 to-blue-100", card: "bg-white/80", primary: "bg-sky-500" } },
+  { id: "charcoal", name: "グレー", description: "シックな濃いめのグレー背景",
+    preview: { bg: "bg-gradient-to-br from-gray-600 to-gray-500", card: "bg-gray-700", primary: "bg-gray-400" } },
 ]
 
 const accentColors = [
