@@ -17,6 +17,7 @@ export type Profile = {
   email: string
   theme: string
   accent_color: string
+  avatar_url: string
 }
 
 export type Link = {

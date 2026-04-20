@@ -121,8 +121,15 @@ export function PublicProfile({ userId }: { userId: string }) {
           <div className="h-12" />
 
           <div className="flex justify-center mb-6">
-            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center ring-4 ring-white shadow-lg">
-              <User className="w-14 h-14 text-white" />
+            <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-white shadow-lg flex-shrink-0">
+              {profile.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={profile.avatar_url} alt={profile.name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                  <User className="w-14 h-14 text-white" />
+                </div>
+              )}
             </div>
           </div>
 

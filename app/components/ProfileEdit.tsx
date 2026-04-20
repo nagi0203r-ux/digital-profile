@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { ArrowLeft, User, Upload } from "lucide-react"
+import { ArrowLeft, User, Upload, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { supabase } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
@@ -10,12 +10,15 @@ import { AdminLayout } from "./AdminLayout"
 export function ProfileEdit() {
   const [userId, setUserId] = useState<string | null>(null)
   const [profileId, setProfileId] = useState<string | null>(null)
+  const [avatarUrl, setAvatarUrl] = useState("")
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [formData, setFormData] = useState({
     name: "", title: "", organization: "", location: "",
     bio: "", phone: "", email: "", bioAlign: "center" as "center" | "left",
   })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     async function load() {
@@ -26,6 +29,7 @@ export function ProfileEdit() {
       const { data } = await supabase.from('profiles').select('*').eq('user_id', user.id).single()
       if (data) {
         setProfileId(data.id)
+        setAvatarUrl(data.avatar_url ?? "")
         setFormData({
           name: data.name ?? "", title: data.title ?? "",
           organization: data.organization ?? "", location: data.location ?? "",
@@ -37,6 +41,59 @@ export function ProfileEdit() {
     }
     load()
   }, [])
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !userId) return
+
+    if (!file.type.startsWith('image/')) {
+      toast.error("画像ファイルを選択してください")
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("ファイルサイズは5MB以下にしてください")
+      return
+    }
+
+    setUploadingAvatar(true)
+    const ext = file.name.split('.').pop() ?? 'jpg'
+    const path = `${userId}/avatar.${ext}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(path, file, { upsert: true, contentType: file.type })
+
+    if (uploadError) {
+      console.error("avatar upload error:", uploadError)
+      toast.error("アップロードに失敗しました: " + uploadError.message)
+      setUploadingAvatar(false)
+      return
+    }
+
+    const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path)
+    const urlWithCache = `${publicUrl}?t=${Date.now()}`
+
+    const { error: updateError } = await supabase.from('profiles')
+      .update({ avatar_url: urlWithCache })
+      .eq('user_id', userId)
+
+    if (updateError) {
+      toast.error("画像URLの保存に失敗しました")
+    } else {
+      setAvatarUrl(urlWithCache)
+      toast.success("プロフィール画像を更新しました ✓")
+    }
+    setUploadingAvatar(false)
+    // ファイル入力をリセット（同じファイルを再選択できるように）
+    if (fileInputRef.current) fileInputRef.current.value = ""
+  }
+
+  const handleAvatarDelete = async () => {
+    if (!userId) return
+    await supabase.from('profiles').update({ avatar_url: "" }).eq('user_id', userId)
+    setAvatarUrl("")
+    toast.success("プロフィール画像を削除しました")
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,11 +109,9 @@ export function ProfileEdit() {
 
     let error
     if (profileId) {
-      // 既存プロフィールを更新
       const res = await supabase.from('profiles').update(payload).eq('id', profileId)
       error = res.error
     } else {
-      // プロフィールが未作成なら新規作成
       const res = await supabase.from('profiles').insert({
         user_id: userId, ...payload,
         theme: 'light', accent_color: 'blue',
@@ -105,12 +160,53 @@ export function ProfileEdit() {
           <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
             <label className="block mb-6">プロフィール画像</label>
             <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
-                <User className="w-16 h-16 text-white" />
-              </div>
-              <button type="button" className="flex items-center gap-2 bg-white border-2 border-gray-200 hover:bg-gray-50 px-6 py-3 rounded-2xl transition-colors">
-                <Upload className="w-5 h-5" /><span>画像をアップロード</span>
+              {/* アバター（クリックでファイル選択） */}
+              <button type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploadingAvatar}
+                className="relative w-32 h-32 rounded-full overflow-hidden flex-shrink-0 group focus:outline-none">
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={avatarUrl} alt="プロフィール画像" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                    <User className="w-16 h-16 text-white" />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+                  {uploadingAvatar
+                    ? <div className="w-7 h-7 border-3 border-white border-t-transparent rounded-full animate-spin" />
+                    : <Upload className="w-7 h-7 text-white" />
+                  }
+                </div>
               </button>
+
+              <div className="flex flex-col gap-3">
+                <button type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingAvatar}
+                  className="flex items-center gap-2 bg-white border-2 border-gray-200 hover:bg-gray-50 px-6 py-3 rounded-2xl transition-colors disabled:opacity-60">
+                  <Upload className="w-5 h-5" />
+                  <span>{uploadingAvatar ? "アップロード中..." : "画像をアップロード"}</span>
+                </button>
+                {avatarUrl && (
+                  <button type="button"
+                    onClick={handleAvatarDelete}
+                    className="flex items-center gap-2 text-red-500 hover:bg-red-50 border-2 border-red-200 px-6 py-3 rounded-2xl transition-colors text-sm">
+                    <Trash2 className="w-4 h-4" />
+                    <span>画像を削除</span>
+                  </button>
+                )}
+                <p className="text-xs text-gray-500">JPG・PNG・WebP、最大5MB</p>
+              </div>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarUpload}
+              />
             </div>
           </div>
 
