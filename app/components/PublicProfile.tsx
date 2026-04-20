@@ -39,6 +39,38 @@ const themes: Record<string, Record<string, string>> = {
     buttonSecondary: "bg-white text-gray-900 border-2 border-purple-200",
     border: "border-purple-200",
   },
+  lime: {
+    background: "bg-gradient-to-br from-lime-300 via-green-200 to-emerald-100",
+    cardBg: "bg-white/75 backdrop-blur",
+    text: "text-gray-900",
+    textMuted: "text-gray-700",
+    buttonSecondary: "bg-white/70 text-gray-900 border-2 border-lime-300",
+    border: "border-lime-200",
+  },
+  yellow: {
+    background: "bg-gradient-to-br from-yellow-300 via-amber-200 to-yellow-100",
+    cardBg: "bg-white/75 backdrop-blur",
+    text: "text-gray-900",
+    textMuted: "text-gray-700",
+    buttonSecondary: "bg-white/70 text-gray-900 border-2 border-yellow-300",
+    border: "border-yellow-200",
+  },
+  orange: {
+    background: "bg-gradient-to-br from-orange-300 via-amber-200 to-orange-100",
+    cardBg: "bg-white/75 backdrop-blur",
+    text: "text-gray-900",
+    textMuted: "text-gray-700",
+    buttonSecondary: "bg-white/70 text-gray-900 border-2 border-orange-300",
+    border: "border-orange-200",
+  },
+  sky: {
+    background: "bg-gradient-to-br from-sky-300 via-cyan-200 to-blue-100",
+    cardBg: "bg-white/75 backdrop-blur",
+    text: "text-gray-900",
+    textMuted: "text-gray-700",
+    buttonSecondary: "bg-white/70 text-gray-900 border-2 border-sky-300",
+    border: "border-sky-200",
+  },
 }
 
 function getIcon(iconName: string, className = "w-5 h-5") {

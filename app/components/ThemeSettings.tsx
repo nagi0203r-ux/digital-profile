@@ -14,6 +14,14 @@ const themeOptions = [
     preview: { bg: "bg-gray-900", card: "bg-gray-800", primary: "bg-cyan-500" } },
   { id: "gradient", name: "グラデーション", description: "華やかなグラデーション",
     preview: { bg: "bg-gradient-to-br from-purple-50 to-pink-50", card: "bg-white", primary: "bg-gradient-to-r from-purple-600 to-pink-600" } },
+  { id: "lime", name: "黄緑", description: "フレッシュな黄緑背景",
+    preview: { bg: "bg-gradient-to-br from-lime-300 to-emerald-100", card: "bg-white/80", primary: "bg-lime-500" } },
+  { id: "yellow", name: "黄色", description: "明るくポップな黄色背景",
+    preview: { bg: "bg-gradient-to-br from-yellow-300 to-amber-100", card: "bg-white/80", primary: "bg-yellow-500" } },
+  { id: "orange", name: "オレンジ", description: "温かみのあるオレンジ背景",
+    preview: { bg: "bg-gradient-to-br from-orange-300 to-amber-100", card: "bg-white/80", primary: "bg-orange-500" } },
+  { id: "sky", name: "水色", description: "さわやかな水色背景",
+    preview: { bg: "bg-gradient-to-br from-sky-300 to-blue-100", card: "bg-white/80", primary: "bg-sky-500" } },
 ]
 
 const accentColors = [
@@ -103,7 +111,7 @@ export function ThemeSettings() {
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
         <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8 mb-6">
           <h2 className="mb-6">テーマ</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {themeOptions.map(theme => (
               <button key={theme.id} onClick={() => setSelectedTheme(theme.id)}
                 className={`relative p-4 rounded-2xl border-2 transition-all text-left ${
