@@ -27,9 +27,9 @@ const themes: Record<string, Record<string, string>> = {
     background: "bg-gray-900",
     cardBg: "bg-gray-800",
     text: "text-white",
-    textMuted: "text-gray-400",
+    textMuted: "text-white",
     buttonSecondary: "bg-gray-700 text-white border-2 border-gray-600",
-    border: "border-gray-700",
+    border: "border-gray-600",
   },
   gradient: {
     background: "bg-gradient-to-br from-purple-50 to-pink-50",
