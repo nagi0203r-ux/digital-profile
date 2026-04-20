@@ -135,8 +135,14 @@ export function ContentManagement() {
         ? { ...i, title: editForm.title, url: editForm.url, description: editForm.description, banner: bannerUrl }
         : i
       ))
-      setEditingId(null)
-      toast.success("コンテンツを更新しました")
+      // バナーURLをlh3形式から元のDrive URL形式に戻してフォームを維持
+      if (bannerUrl) {
+        const savedId = extractDriveId(bannerUrl)
+        if (savedId) {
+          setEditForm(prev => ({ ...prev, driveUrl: `https://drive.google.com/file/d/${savedId}/view` }))
+        }
+      }
+      toast.success("保存しました ✓")
     }
     setEditSaving(false)
   }
