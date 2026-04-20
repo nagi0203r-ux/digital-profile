@@ -6,6 +6,7 @@ import { Users, ExternalLink, LogOut, UserPlus, Trash2, X } from "lucide-react"
 import { supabase, type Profile } from "@/lib/supabase"
 
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "nagi.0203r@gmail.com"
+const ADMIN_PIN = "1026"
 
 function formatDate(iso?: string) {
   if (!iso) return "—"
@@ -20,6 +21,11 @@ export function AdminPanel() {
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
   const [origin, setOrigin] = useState("")
+
+  // PIN認証
+  const [pinVerified, setPinVerified] = useState(false)
+  const [pin, setPin] = useState("")
+  const [pinError, setPinError] = useState(false)
 
   // ユーザー追加モーダル
   const [showAdd, setShowAdd] = useState(false)
@@ -110,10 +116,62 @@ export function AdminPanel() {
     router.push("/login")
   }
 
+  const handlePinSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (pin === ADMIN_PIN) {
+      setPinVerified(true)
+      setPinError(false)
+    } else {
+      setPinError(true)
+      setPin("")
+    }
+  }
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  // PIN認証画面
+  if (!pinVerified) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+        <div className="w-full max-w-xs">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h1 className="text-xl font-semibold text-white">管理者PIN</h1>
+            <p className="text-sm text-gray-400 mt-1">4桁のPINを入力してください</p>
+          </div>
+          <form onSubmit={handlePinSubmit} className="bg-gray-800 rounded-3xl border-2 border-gray-700 p-6">
+            <input
+              type="password"
+              value={pin}
+              onChange={e => { setPin(e.target.value); setPinError(false) }}
+              maxLength={4}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              className={`w-full text-center text-3xl tracking-widest bg-gray-700 border-2 rounded-2xl px-4 py-4 text-white focus:outline-none mb-4 ${
+                pinError ? 'border-red-500' : 'border-transparent focus:border-blue-500'
+              }`}
+              placeholder="••••"
+              autoFocus
+            />
+            {pinError && (
+              <p className="text-sm text-red-400 text-center mb-4">PINが正しくありません</p>
+            )}
+            <button type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-2xl transition-colors font-medium">
+              確認
+            </button>
+          </form>
+        </div>
       </div>
     )
   }
