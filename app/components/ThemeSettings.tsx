@@ -31,6 +31,12 @@ const accentColors = [
   { id: "purple", name: "パープル", color: "bg-purple-600" },
   { id: "pink", name: "ピンク", color: "bg-pink-600" },
   { id: "orange", name: "オレンジ", color: "bg-orange-600" },
+  { id: "white", name: "ホワイト", color: "bg-white border border-gray-300" },
+  { id: "black", name: "ブラック", color: "bg-gray-900" },
+  { id: "yellow", name: "イエロー", color: "bg-yellow-400" },
+  { id: "lime", name: "黄緑", color: "bg-lime-500" },
+  { id: "amber", name: "薄オレンジ", color: "bg-amber-400" },
+  { id: "red", name: "レッド", color: "bg-red-600" },
 ]
 
 export function ThemeSettings() {

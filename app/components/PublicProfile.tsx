@@ -12,6 +12,16 @@ const accentColorClass: Record<string, string> = {
   purple: "bg-purple-600",
   pink:   "bg-pink-600",
   orange: "bg-orange-600",
+  white:  "bg-white border border-gray-300",
+  black:  "bg-gray-900",
+  yellow: "bg-yellow-400",
+  lime:   "bg-lime-500",
+  amber:  "bg-amber-400",
+  red:    "bg-red-600",
+}
+
+const accentTextClass: Record<string, string> = {
+  white: "text-gray-900",
 }
 
 const themes: Record<string, Record<string, string>> = {
@@ -138,7 +148,8 @@ export function PublicProfile({ userId }: { userId: string }) {
 
   const theme = themes[profile.theme] ?? themes.light
   const accentBg = accentColorClass[profile.accent_color] ?? "bg-blue-600"
-  const buttonPrimary = `${accentBg} text-white`
+  const accentText = accentTextClass[profile.accent_color] ?? "text-white"
+  const buttonPrimary = `${accentBg} ${accentText}`
   const companyLinks = links.filter(l => l.enabled && l.type === "company")
   const snsLinks = links.filter(l => l.enabled && l.type === "sns")
   const customLinks = links.filter(l => l.enabled && l.type === "custom")
