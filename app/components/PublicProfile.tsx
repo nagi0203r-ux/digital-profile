@@ -196,9 +196,9 @@ export function PublicProfile({ userId }: { userId: string }) {
               <div className="space-y-2">
                 {companyLinks.map(link => (
                   <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
-                    className={`flex items-center gap-3 ${theme.buttonSecondary} px-4 py-3.5 rounded-xl transition-all hover:shadow-sm`}>
+                    className={`flex items-center gap-3 ${theme.buttonSecondary} px-4 py-3 rounded-xl transition-all hover:shadow-sm`}>
                     <Globe className="w-4 h-4 flex-shrink-0" />
-                    <span className="text-sm font-medium">{link.title}</span>
+                    <span className="text-sm font-medium leading-snug">{link.title}</span>
                   </a>
                 ))}
               </div>
