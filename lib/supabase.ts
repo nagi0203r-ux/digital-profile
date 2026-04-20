@@ -7,6 +7,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export type Profile = {
   id: string
+  user_id: string
   name: string
   title: string
   organization: string
@@ -21,6 +22,7 @@ export type Profile = {
   show_phone: boolean
   show_email: boolean
   show_save_contact: boolean
+  created_at?: string
 }
 
 export type Link = {
