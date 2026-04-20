@@ -142,7 +142,7 @@ export function ThemeSettings() {
         </div>
 
         <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8 mb-6">
-          <h2 className="mb-6">アクセントカラー</h2>
+          <h2 className="mb-6">メインボタンカラー</h2>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
             {accentColors.map(color => (
               <button key={color.id} onClick={() => setSelectedAccent(color.id)}
