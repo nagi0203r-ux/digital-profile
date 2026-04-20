@@ -50,11 +50,30 @@ export function ThemeSettings() {
   }, [])
 
   const handleSave = async () => {
-    if (!profileId) return
+    if (!userId) return
     setSaving(true)
-    const { error } = await supabase.from('profiles')
-      .update({ theme: selectedTheme, accent_color: selectedAccent }).eq('id', profileId)
-    if (error) { toast.error("保存に失敗しました") } else { toast.success("デザインを保存しました") }
+
+    let error
+    if (profileId) {
+      const res = await supabase.from('profiles')
+        .update({ theme: selectedTheme, accent_color: selectedAccent }).eq('id', profileId)
+      error = res.error
+    } else {
+      const res = await supabase.from('profiles').insert({
+        user_id: userId, theme: selectedTheme, accent_color: selectedAccent,
+        name: '名前未設定', title: '', organization: '', location: '',
+        bio: '', bio_align: 'center', phone: '', email: '',
+      }).select().single()
+      error = res.error
+      if (res.data) setProfileId(res.data.id)
+    }
+
+    if (error) {
+      console.error("theme save error:", error)
+      toast.error("保存に失敗しました")
+    } else {
+      toast.success("デザインを保存しました ✓")
+    }
     setSaving(false)
   }
 

@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
 
 export function ProfileEdit() {
+  const [userId, setUserId] = useState<string | null>(null)
   const [profileId, setProfileId] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     name: "", title: "", organization: "", location: "",
@@ -20,14 +21,16 @@ export function ProfileEdit() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+      setUserId(user.id)
 
       const { data } = await supabase.from('profiles').select('*').eq('user_id', user.id).single()
       if (data) {
         setProfileId(data.id)
         setFormData({
-          name: data.name, title: data.title, organization: data.organization,
-          location: data.location, bio: data.bio, phone: data.phone,
-          email: data.email, bioAlign: data.bio_align,
+          name: data.name ?? "", title: data.title ?? "",
+          organization: data.organization ?? "", location: data.location ?? "",
+          bio: data.bio ?? "", phone: data.phone ?? "",
+          email: data.email ?? "", bioAlign: data.bio_align ?? "center",
         })
       }
       setLoading(false)
@@ -37,15 +40,37 @@ export function ProfileEdit() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!profileId) return
+    if (!userId) return
     setSaving(true)
-    const { error } = await supabase.from('profiles').update({
-      name: formData.name, title: formData.title, organization: formData.organization,
-      location: formData.location, bio: formData.bio, bio_align: formData.bioAlign,
-      phone: formData.phone, email: formData.email,
-    }).eq('id', profileId)
 
-    if (error) { toast.error("保存に失敗しました") } else { toast.success("プロフィールを保存しました") }
+    const payload = {
+      name: formData.name, title: formData.title,
+      organization: formData.organization, location: formData.location,
+      bio: formData.bio, bio_align: formData.bioAlign,
+      phone: formData.phone, email: formData.email,
+    }
+
+    let error
+    if (profileId) {
+      // 既存プロフィールを更新
+      const res = await supabase.from('profiles').update(payload).eq('id', profileId)
+      error = res.error
+    } else {
+      // プロフィールが未作成なら新規作成
+      const res = await supabase.from('profiles').insert({
+        user_id: userId, ...payload,
+        theme: 'light', accent_color: 'blue',
+      }).select().single()
+      error = res.error
+      if (res.data) setProfileId(res.data.id)
+    }
+
+    if (error) {
+      console.error("profile save error:", error)
+      toast.error("保存に失敗しました")
+    } else {
+      toast.success("プロフィールを保存しました ✓")
+    }
     setSaving(false)
   }
 
