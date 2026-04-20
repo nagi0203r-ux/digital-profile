@@ -136,8 +136,8 @@ export function PublicProfile({ userId }: { userId: string }) {
 
           <div className="text-center px-8 mb-6">
             <h1 className={`text-2xl mb-2 ${theme.text}`}>{profile.name}</h1>
-            {profile.title && <p className={`${theme.textMuted} mb-1`}>{profile.title}</p>}
-            {profile.organization && <p className={`${theme.textMuted} mb-3`}>{profile.organization}</p>}
+            {profile.organization && <p className={`${theme.textMuted} mb-1`}>{profile.organization}</p>}
+            {profile.title && <p className={`${theme.textMuted} mb-3`}>{profile.title}</p>}
             {profile.location && (
               <div className={`flex items-center justify-center gap-1 ${theme.textMuted} text-sm`}>
                 <MapPin className="w-4 h-4" />
