@@ -19,6 +19,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
   const [checking, setChecking] = useState(true)
+  const [publicUrl, setPublicUrl] = useState("")
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -26,6 +27,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         router.replace("/login")
       } else {
         setChecking(false)
+        setPublicUrl(`/p/${session.user.id}`)
       }
     })
   }, [router])
@@ -68,7 +70,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <div className="px-4 py-4 border-t border-gray-200 space-y-1">
-          <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-100 transition-colors">
+          <Link href={publicUrl} target="_blank"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-100 transition-colors">
             <Eye className="w-5 h-5" />
             公開ページを見る
           </Link>
@@ -100,11 +103,11 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               )
             })}
-            <button onClick={handleLogout}
-              className="flex flex-col items-center justify-center gap-0.5 text-xs text-red-400">
-              <LogOut className="w-4 h-4" />
-              <span className="text-[9px]">ログアウト</span>
-            </button>
+            <Link href={publicUrl} target="_blank"
+              className="flex flex-col items-center justify-center gap-0.5 text-xs text-gray-500">
+              <Eye className="w-4 h-4" />
+              <span className="text-[9px]">公開</span>
+            </Link>
           </div>
         </nav>
 

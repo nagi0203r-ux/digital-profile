@@ -72,13 +72,13 @@ export function Dashboard() {
               <User className="w-12 h-12 text-white" />
             </div>
             <h3 className="text-xl mb-1">{profile?.name || "名前未設定"}</h3>
-            {profile?.title && <p className="text-gray-500">{profile.title}</p>}
-            {profile?.organization && <p className="text-sm text-gray-500">{profile.organization}</p>}
+            {profile?.title && <p className="text-gray-700">{profile.title}</p>}
+            {profile?.organization && <p className="text-sm text-gray-700">{profile.organization}</p>}
           </div>
 
           {userId && (
             <div className="bg-gray-50 rounded-2xl px-4 py-3 flex items-center gap-3 mb-6">
-              <span className="text-sm text-gray-500 flex-1 truncate">{publicUrl}</span>
+              <span className="text-sm text-gray-900 flex-1 truncate">{publicUrl}</span>
               <button onClick={handleCopy}
                 className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 flex-shrink-0">
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -102,7 +102,7 @@ export function Dashboard() {
               </div>
               <div>
                 <h3 className="mb-1">プロフィール編集</h3>
-                <p className="text-sm text-gray-500">名前、肩書き、連絡先を編集</p>
+                <p className="text-sm text-gray-700">名前、肩書き、連絡先を編集</p>
               </div>
             </div>
           </Link>
@@ -114,7 +114,7 @@ export function Dashboard() {
               </div>
               <div>
                 <h3 className="mb-1">SNSリンク管理</h3>
-                <p className="text-sm text-gray-500">{snsCount}件のSNSを設定中</p>
+                <p className="text-sm text-gray-700">{snsCount}件のSNSを設定中</p>
               </div>
             </div>
           </Link>
@@ -126,7 +126,7 @@ export function Dashboard() {
               </div>
               <div>
                 <h3 className="mb-1">コンテンツ管理</h3>
-                <p className="text-sm text-gray-500">{contentCount}件のコンテンツを掲載中</p>
+                <p className="text-sm text-gray-700">{contentCount}件のコンテンツを掲載中</p>
               </div>
             </div>
           </Link>
@@ -138,7 +138,7 @@ export function Dashboard() {
               </div>
               <div>
                 <h3 className="mb-1">デザイン設定</h3>
-                <p className="text-sm text-gray-500">テーマとカラーを変更</p>
+                <p className="text-sm text-gray-700">テーマとカラーを変更</p>
               </div>
             </div>
           </Link>
@@ -150,7 +150,7 @@ export function Dashboard() {
               </div>
               <div>
                 <h3 className="mb-1">パスワード・メールアドレス変更</h3>
-                <p className="text-sm text-gray-500">ログイン情報の変更</p>
+                <p className="text-sm text-gray-700">ログイン情報の変更</p>
               </div>
             </div>
           </Link>

@@ -52,7 +52,7 @@ function ContentCard({ item, index, moveItem, onDelete, onToggle, onRemoveBanner
       ) : (
         <div className="bg-gray-100 h-16 flex items-center px-4 gap-3">
           <ExternalLink className="w-5 h-5 text-gray-400" />
-          <span className="text-sm text-gray-400">バナーなし</span>
+          <span className="text-sm text-gray-700">バナーなし</span>
         </div>
       )}
       <div className="p-4">
@@ -62,8 +62,8 @@ function ContentCard({ item, index, moveItem, onDelete, onToggle, onRemoveBanner
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-medium text-gray-900 mb-1 truncate">{item.title}</div>
-            {item.description && <div className="text-sm text-gray-500 line-clamp-2 mb-1">{item.description}</div>}
-            <div className="text-xs text-gray-400 truncate">{item.url}</div>
+            {item.description && <div className="text-sm text-gray-700 line-clamp-2 mb-1">{item.description}</div>}
+            <div className="text-xs text-gray-700 truncate">{item.url}</div>
           </div>
           <button type="button" onClick={() => onToggle(item.id)}
             className={`relative w-12 h-7 rounded-full transition-colors flex-shrink-0 ${item.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
@@ -260,7 +260,7 @@ export function ContentManagement() {
                   placeholder="https://drive.google.com/file/d/xxxxx/view" />
                 {convertedPreview && (
                   <div className="mt-3">
-                    <p className="text-xs text-gray-500 mb-1">プレビュー</p>
+                    <p className="text-xs text-gray-700 mb-1">プレビュー</p>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={convertedPreview} alt="preview"
                       className="w-full h-40 object-cover rounded-xl"
@@ -286,7 +286,7 @@ export function ContentManagement() {
 
           <div className="space-y-3 mb-6">
             {items.length === 0 && !showForm && (
-              <div className="text-center py-16 text-gray-400">
+              <div className="text-center py-16 text-gray-700">
                 <ExternalLink className="w-12 h-12 mx-auto mb-3 opacity-30" />
                 <p>コンテンツがまだありません</p>
               </div>

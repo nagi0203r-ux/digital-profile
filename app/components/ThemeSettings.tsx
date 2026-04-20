@@ -120,8 +120,8 @@ export function ThemeSettings() {
                     <div className="h-1.5 bg-gray-300 rounded w-1/2" />
                   </div>
                 </div>
-                <div className="font-medium mb-1">{theme.name}</div>
-                <div className="text-sm text-gray-500">{theme.description}</div>
+                <div className="font-medium mb-1 text-gray-900">{theme.name}</div>
+                <div className="text-sm text-gray-700">{theme.description}</div>
               </button>
             ))}
           </div>

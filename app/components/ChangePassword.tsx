@@ -83,7 +83,7 @@ export function ChangePassword() {
                 required
               />
             </div>
-            <p className="text-xs text-gray-400">変更後、新しいメールアドレスに確認メールが届きます。</p>
+            <p className="text-xs text-gray-700">変更後、新しいメールアドレスに確認メールが届きます。</p>
             <button type="submit" disabled={savingEmail}
               className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-3.5 rounded-2xl transition-colors">
               {savingEmail ? "処理中..." : "メールアドレスを変更"}
