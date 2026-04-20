@@ -103,7 +103,7 @@ export function ProfileEdit() {
                   <input type="text" name={f.name}
                     value={formData[f.name as keyof typeof formData] as string}
                     onChange={handleChange}
-                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors"
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                     placeholder={f.placeholder} />
                 </div>
               ))}
@@ -115,7 +115,7 @@ export function ProfileEdit() {
                 </div>
                 <textarea name="bio" value={formData.bio} onChange={handleChange}
                   rows={4} maxLength={200}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors resize-none"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors resize-none text-gray-900 placeholder:text-gray-400"
                   placeholder="あなたについて簡単に紹介してください（最大200文字）" />
               </div>
 
@@ -144,13 +144,13 @@ export function ProfileEdit() {
               <div>
                 <label className="block mb-2">電話番号</label>
                 <input type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                   placeholder="090-1234-5678" />
               </div>
               <div>
                 <label className="block mb-2">メールアドレス</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                   placeholder="you@example.com" />
               </div>
             </div>

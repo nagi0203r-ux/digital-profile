@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { User, Mail, Phone, Globe, Camera, Briefcase, Play, MapPin } from "lucide-react"
+import { User, Mail, Phone, Globe, MapPin } from "lucide-react"
+import { FaLine, FaXTwitter, FaInstagram, FaYoutube, FaFacebook, FaTiktok } from "react-icons/fa6"
 import { supabase, type Profile, type Link } from "@/lib/supabase"
 
 const themes: Record<string, Record<string, string>> = {
@@ -35,10 +36,14 @@ const themes: Record<string, Record<string, string>> = {
 }
 
 function getIcon(iconName: string, className = "w-5 h-5") {
+  const style = { width: "1.25rem", height: "1.25rem" }
   switch (iconName) {
-    case "instagram": return <Camera className={className} />
-    case "linkedin": return <Briefcase className={className} />
-    case "youtube": return <Play className={className} />
+    case "line": return <FaLine className={className} style={style} />
+    case "x": return <FaXTwitter className={className} style={style} />
+    case "instagram": return <FaInstagram className={className} style={style} />
+    case "youtube": return <FaYoutube className={className} style={style} />
+    case "facebook": return <FaFacebook className={className} style={style} />
+    case "tiktok": return <FaTiktok className={className} style={style} />
     default: return <Globe className={className} />
   }
 }
@@ -86,7 +91,6 @@ export function PublicProfile({ userId }: { userId: string }) {
   }
 
   const theme = themes[profile.theme] ?? themes.light
-  const companyLinks = links.filter(l => l.enabled && l.type === "company")
   const snsLinks = links.filter(l => l.enabled && l.type === "sns")
   const customLinks = links.filter(l => l.enabled && l.type === "custom")
 
@@ -168,23 +172,6 @@ export function PublicProfile({ userId }: { userId: string }) {
             </div>
           </div>
 
-          {companyLinks.length > 0 && (
-            <div className="px-8 pb-8">
-              <div className={`border-t ${theme.border} pt-6 mb-4`}>
-                <h3 className={`text-sm ${theme.textMuted}`}>会社情報</h3>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {companyLinks.map(link => (
-                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
-                    className={`flex flex-col items-center justify-center gap-2 ${theme.buttonSecondary} px-4 py-5 rounded-xl transition-all hover:shadow-md`}>
-                    <div className={theme.textMuted}>{getIcon(link.icon)}</div>
-                    <span className="text-xs text-center">{link.title}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-
           {snsLinks.length > 0 && (
             <div className="px-8 pb-8">
               <div className={`border-t ${theme.border} pt-6 mb-4`}>
@@ -206,35 +193,40 @@ export function PublicProfile({ userId }: { userId: string }) {
           {customLinks.length > 0 && (
             <div className="px-8 pb-12">
               <div className={`border-t ${theme.border} pt-6 mb-4`}>
-                <h3 className={`text-sm ${theme.textMuted}`}>リンク</h3>
+                <h3 className={`text-sm ${theme.textMuted}`}>コンテンツ</h3>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {customLinks.map(link => (
-                  link.banner ? (
-                    <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
-                      className={`block overflow-hidden rounded-2xl transition-all hover:shadow-lg group ${theme.border} border-2`}>
-                      <div className="relative aspect-[2/1] overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={link.banner} alt={link.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-5 flex items-center justify-between">
-                          <h4 className="text-white font-medium text-lg">{link.title}</h4>
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
+                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
+                    className={`block overflow-hidden rounded-2xl transition-all hover:shadow-lg border-2 ${theme.border}`}>
+                    {link.banner ? (
+                      /* バナーあり */
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={link.banner} alt={link.title}
+                        className="w-full object-cover"
+                        style={{ aspectRatio: '2/1' }}
+                        loading="lazy" />
+                    ) : (
+                      /* バナーなし：CSSのみ */
+                      <div className={`${theme.cardBg} px-5 py-4 flex items-center gap-3`}>
+                        <svg className={`w-5 h-5 flex-shrink-0 ${theme.textMuted}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        <span className={`font-medium ${theme.text}`}>{link.title}</span>
                       </div>
-                    </a>
-                  ) : (
-                    <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
-                      className={`flex items-center gap-4 ${theme.buttonSecondary} px-5 py-4 rounded-xl transition-all hover:shadow-md`}>
-                      <div className={theme.textMuted}>{getIcon(link.icon)}</div>
-                      <span className="flex-1 text-sm">{link.title}</span>
-                      <svg className={`w-4 h-4 ${theme.textMuted}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    )}
+                    <div className={`${theme.cardBg} px-5 py-4 flex items-center justify-between gap-3`}>
+                      <div className="flex-1 min-w-0">
+                        <p className={`font-medium ${theme.text} truncate`}>{link.title}</p>
+                        {link.description && (
+                          <p className={`text-sm ${theme.textMuted} line-clamp-2 mt-0.5`}>{link.description}</p>
+                        )}
+                      </div>
+                      <svg className={`w-4 h-4 flex-shrink-0 ${theme.textMuted}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </a>
-                  )
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>

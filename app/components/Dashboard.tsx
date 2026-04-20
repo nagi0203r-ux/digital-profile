@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { User, Edit, Link as LinkIcon, QrCode, Eye, Palette, Copy, Check } from "lucide-react"
+import { User, Edit, Share2, Images, Palette, Copy, Check, KeyRound, Eye } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
 
 export function Dashboard() {
   const [profile, setProfile] = useState<{ name: string; title: string; organization: string } | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
-  const [linksCount, setLinksCount] = useState(0)
+  const [snsCount, setSnsCount] = useState(0)
+  const [contentCount, setContentCount] = useState(0)
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -18,13 +19,17 @@ export function Dashboard() {
       if (!user) return
       setUserId(user.id)
 
-      const { data: profile } = await supabase
+      const { data: profileData } = await supabase
         .from('profiles').select('name, title, organization').eq('user_id', user.id).single()
-      if (profile) setProfile(profile)
+      if (profileData) setProfile(profileData)
 
-      const { count } = await supabase
-        .from('links').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
-      setLinksCount(count ?? 0)
+      const { count: sns } = await supabase
+        .from('links').select('*', { count: 'exact', head: true }).eq('user_id', user.id).eq('type', 'sns')
+      setSnsCount(sns ?? 0)
+
+      const { count: content } = await supabase
+        .from('links').select('*', { count: 'exact', head: true }).eq('user_id', user.id).eq('type', 'custom')
+      setContentCount(content ?? 0)
     }
     load()
   }, [])
@@ -71,7 +76,6 @@ export function Dashboard() {
             {profile?.organization && <p className="text-sm text-gray-500">{profile.organization}</p>}
           </div>
 
-          {/* 公開URL */}
           {userId && (
             <div className="bg-gray-50 rounded-2xl px-4 py-3 flex items-center gap-3 mb-6">
               <span className="text-sm text-gray-500 flex-1 truncate">{publicUrl}</span>
@@ -83,16 +87,10 @@ export function Dashboard() {
             </div>
           )}
 
-          <div className="flex gap-3">
-            <Link href="/edit-profile"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition-colors text-center">
-              プロフィール編集
-            </Link>
-            <Link href="/edit-links"
-              className="flex-1 bg-white border-2 border-gray-200 hover:bg-gray-50 py-4 rounded-2xl transition-colors text-center">
-              リンク管理
-            </Link>
-          </div>
+          <Link href="/edit-profile"
+            className="block w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition-colors text-center">
+            プロフィール編集
+          </Link>
         </div>
 
         {/* クイックアクション */}
@@ -109,14 +107,26 @@ export function Dashboard() {
             </div>
           </Link>
 
-          <Link href="/edit-links" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
+          <Link href="/edit-sns" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center flex-shrink-0">
-                <LinkIcon className="w-6 h-6 text-green-600" />
+                <Share2 className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <h3 className="mb-1">リンク管理</h3>
-                <p className="text-sm text-gray-500">{linksCount}個のリンクを管理</p>
+                <h3 className="mb-1">SNSリンク管理</h3>
+                <p className="text-sm text-gray-500">{snsCount}件のSNSを設定中</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/edit-content" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center flex-shrink-0">
+                <Images className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <h3 className="mb-1">コンテンツ管理</h3>
+                <p className="text-sm text-gray-500">{contentCount}件のコンテンツを掲載中</p>
               </div>
             </div>
           </Link>
@@ -133,17 +143,17 @@ export function Dashboard() {
             </div>
           </Link>
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-6">
+          <Link href="/change-password" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center flex-shrink-0">
-                <QrCode className="w-6 h-6 text-purple-600" />
+                <KeyRound className="w-6 h-6 text-purple-600" />
               </div>
               <div>
-                <h3 className="mb-1">QRコード</h3>
-                <p className="text-sm text-gray-500">準備中</p>
+                <h3 className="mb-1">パスワード・メールアドレス変更</h3>
+                <p className="text-sm text-gray-500">ログイン情報の変更</p>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </AdminLayout>

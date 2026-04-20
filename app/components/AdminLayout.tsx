@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { LayoutDashboard, User, Link as LinkIcon, Palette, Eye, LogOut } from "lucide-react"
+import { LayoutDashboard, User, Palette, Eye, LogOut, Share2, Images, KeyRound } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 
 const navItems = [
   { href: "/dashboard", label: "ダッシュボード", icon: LayoutDashboard },
   { href: "/edit-profile", label: "プロフィール編集", icon: User },
-  { href: "/edit-links", label: "リンク管理", icon: LinkIcon },
+  { href: "/edit-sns", label: "SNSリンク管理", icon: Share2 },
+  { href: "/edit-content", label: "コンテンツ管理", icon: Images },
   { href: "/theme-settings", label: "デザイン設定", icon: Palette },
+  { href: "/change-password", label: "パスワード変更", icon: KeyRound },
 ]
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -50,7 +52,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             Digital Profile
           </Link>
         </div>
-        <nav className="flex-1 px-4 py-4 space-y-1">
+        <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
@@ -84,24 +86,24 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
 
         {/* ボトムナビ（モバイル） */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-20">
-          <div className="grid grid-cols-5 h-16">
+          <div className="grid grid-cols-7 h-16">
             {navItems.map((item) => {
               const Icon = item.icon
               const isActive = pathname === item.href
               return (
                 <Link key={item.href} href={item.href}
-                  className={`flex flex-col items-center justify-center gap-1 text-xs transition-colors ${
+                  className={`flex flex-col items-center justify-center gap-0.5 text-xs transition-colors ${
                     isActive ? "text-blue-600" : "text-gray-500"
                   }`}>
-                  <Icon className="w-5 h-5" />
-                  <span className="truncate">{item.label.replace("編集", "").replace("管理", "").replace("設定", "")}</span>
+                  <Icon className="w-4 h-4" />
+                  <span className="truncate text-[9px] leading-tight px-0.5">{item.label.replace("プロフィール", "").replace("リンク", "").replace("管理", "").replace("設定", "").replace("変更", "")}</span>
                 </Link>
               )
             })}
             <button onClick={handleLogout}
-              className="flex flex-col items-center justify-center gap-1 text-xs text-red-400">
-              <LogOut className="w-5 h-5" />
-              <span>ログアウト</span>
+              className="flex flex-col items-center justify-center gap-0.5 text-xs text-red-400">
+              <LogOut className="w-4 h-4" />
+              <span className="text-[9px]">ログアウト</span>
             </button>
           </div>
         </nav>

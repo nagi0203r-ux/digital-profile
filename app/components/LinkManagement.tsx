@@ -2,18 +2,22 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, Plus, GripVertical, Globe, Camera, Briefcase, Play, Trash2 } from "lucide-react"
+import { ArrowLeft, Plus, GripVertical, Globe, Trash2 } from "lucide-react"
 import { useDrag, useDrop, DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { toast } from "sonner"
+import { FaLine, FaXTwitter, FaInstagram, FaYoutube, FaFacebook, FaTiktok } from "react-icons/fa6"
 import { supabase, type Link as LinkItem } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
 
 function getIcon(iconName: string) {
   switch (iconName) {
-    case "instagram": return <Camera className="w-5 h-5" />
-    case "linkedin": return <Briefcase className="w-5 h-5" />
-    case "youtube": return <Play className="w-5 h-5" />
+    case "line": return <FaLine className="w-5 h-5" style={{ width: "1.25rem", height: "1.25rem" }} />
+    case "x": return <FaXTwitter className="w-5 h-5" style={{ width: "1.25rem", height: "1.25rem" }} />
+    case "instagram": return <FaInstagram className="w-5 h-5" style={{ width: "1.25rem", height: "1.25rem" }} />
+    case "youtube": return <FaYoutube className="w-5 h-5" style={{ width: "1.25rem", height: "1.25rem" }} />
+    case "facebook": return <FaFacebook className="w-5 h-5" style={{ width: "1.25rem", height: "1.25rem" }} />
+    case "tiktok": return <FaTiktok className="w-5 h-5" style={{ width: "1.25rem", height: "1.25rem" }} />
     default: return <Globe className="w-5 h-5" />
   }
 }
@@ -43,7 +47,7 @@ function DraggableLink({ link, index, moveLink, onToggle, onDelete }: {
         <div className="text-gray-500">{getIcon(link.icon)}</div>
         <div className="flex-1 min-w-0">
           <div className="text-gray-500 text-sm mb-1">
-            {link.type === "company" ? "会社URL" : link.type === "sns" ? "SNS" : "カスタムリンク"}
+            {link.type === "sns" ? "SNS" : "カスタムリンク"}
             {link.banner && <span className="ml-2 text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">バナー付き</span>}
           </div>
           <div className="font-medium truncate">{link.title}</div>
@@ -82,7 +86,6 @@ export function LinkManagement() {
     load()
   }, [])
 
-  const companyCount = links.filter(l => l.type === "company").length
   const snsCount = links.filter(l => l.type === "sns").length
 
   const moveLink = (from: number, to: number) => {
@@ -108,7 +111,6 @@ export function LinkManagement() {
   const handleAddLink = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!userId) return
-    if (newLink.type === "company" && companyCount >= 6) { toast.error("会社URLは最大6つまでです"); return }
     if (newLink.type === "sns" && snsCount >= 6) { toast.error("SNSは最大6つまでです"); return }
     if (!newLink.title || !newLink.url) return
 
@@ -171,7 +173,7 @@ export function LinkManagement() {
                 <Plus className="w-5 h-5" /><span>新しいリンクを追加</span>
               </button>
               <p className="text-xs text-gray-500 text-center mt-2">
-                会社URL: {companyCount}/6 | SNS: {snsCount}/6 | カスタム: 無制限
+                SNS: {snsCount}/6 | カスタム: 無制限
               </p>
             </div>
           )}
@@ -182,7 +184,7 @@ export function LinkManagement() {
               <div>
                 <label className="block mb-2">リンクタイプ</label>
                 <select value={newLink.type} onChange={e => setNewLink({ ...newLink, type: e.target.value as LinkItem['type'] })}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl">
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900">
                   <option value="company">会社URL</option>
                   <option value="sns">SNS</option>
                   <option value="custom">カスタムリンク</option>
@@ -191,30 +193,33 @@ export function LinkManagement() {
               <div>
                 <label className="block mb-2">タイトル</label>
                 <input type="text" value={newLink.title} onChange={e => setNewLink({ ...newLink, title: e.target.value })}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                   placeholder="公式サイト" required />
               </div>
               <div>
                 <label className="block mb-2">URL</label>
                 <input type="url" value={newLink.url} onChange={e => setNewLink({ ...newLink, url: e.target.value })}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                   placeholder="https://example.com" required />
               </div>
               <div>
                 <label className="block mb-2">アイコン</label>
                 <select value={newLink.icon} onChange={e => setNewLink({ ...newLink, icon: e.target.value })}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl">
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900">
                   <option value="globe">ウェブサイト</option>
+                  <option value="line">LINE</option>
+                  <option value="x">X (Twitter)</option>
                   <option value="instagram">Instagram</option>
-                  <option value="linkedin">LinkedIn</option>
                   <option value="youtube">YouTube</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="tiktok">TikTok</option>
                 </select>
               </div>
               {newLink.type === "custom" && (
                 <div>
                   <label className="block mb-2">バナー画像URL（任意）</label>
                   <input type="url" value={newLink.banner} onChange={e => setNewLink({ ...newLink, banner: e.target.value })}
-                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl"
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                     placeholder="https://example.com/banner.jpg" />
                 </div>
               )}

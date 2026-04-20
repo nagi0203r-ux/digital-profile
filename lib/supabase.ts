@@ -21,12 +21,13 @@ export type Profile = {
 
 export type Link = {
   id: string
-  profile_id: string
+  user_id: string
   title: string
   url: string
   icon: string
   enabled: boolean
-  type: 'company' | 'sns' | 'custom'
+  type: 'sns' | 'custom'
   banner: string
+  description: string
   order_index: number
 }
