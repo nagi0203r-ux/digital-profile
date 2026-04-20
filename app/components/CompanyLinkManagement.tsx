@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, Plus, Trash2, Globe } from "lucide-react"
+import { ArrowLeft, Plus, Trash2, Globe, ChevronUp, ChevronDown } from "lucide-react"
 import { toast } from "sonner"
 import { supabase, type Link as LinkItem } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
@@ -82,11 +82,12 @@ export function CompanyLinkManagement() {
 
   const handleSave = async () => {
     setSaving(true)
-    const promises = items.map(item =>
+    const promises = items.map((item, idx) =>
       supabase.from('links').update({
         title: item.title,
         url: item.url,
         enabled: item.enabled,
+        order_index: idx,
       }).eq('id', item.id)
     )
     await Promise.all(promises)
@@ -96,6 +97,14 @@ export function CompanyLinkManagement() {
 
   const handleInlineChange = (id: string, field: 'title' | 'url', value: string) => {
     setItems(prev => prev.map(i => i.id === id ? { ...i, [field]: value } : i))
+  }
+
+  const handleMove = (index: number, dir: 'up' | 'down') => {
+    const next = dir === 'up' ? index - 1 : index + 1
+    if (next < 0 || next >= items.length) return
+    const updated = [...items]
+    ;[updated[index], updated[next]] = [updated[next], updated[index]]
+    setItems(updated)
   }
 
   if (loading) {
@@ -170,9 +179,19 @@ export function CompanyLinkManagement() {
           </div>
         ) : (
           <div className="space-y-3 mb-6">
-            {items.map(item => (
+            {items.map((item, idx) => (
               <div key={item.id} className="bg-white border-2 border-gray-200 rounded-2xl p-4">
                 <div className="flex items-start gap-3">
+                  <div className="flex flex-col gap-1 flex-shrink-0">
+                    <button type="button" onClick={() => handleMove(idx, 'up')} disabled={idx === 0}
+                      className="p-1 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-25">
+                      <ChevronUp className="w-4 h-4 text-gray-500" />
+                    </button>
+                    <button type="button" onClick={() => handleMove(idx, 'down')} disabled={idx === items.length - 1}
+                      className="p-1 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-25">
+                      <ChevronDown className="w-4 h-4 text-gray-500" />
+                    </button>
+                  </div>
                   <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
                     <Globe className="w-5 h-5 text-gray-500" />
                   </div>
