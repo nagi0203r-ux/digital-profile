@@ -187,7 +187,7 @@ export function PublicProfile({ userId }: { userId: string }) {
   }
 
   const handleSaveContact = () => {
-    const vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${profile.name}\nORG:${profile.organization}\nTITLE:${profile.title}\nTEL:${profile.phone}\nEMAIL:${profile.email}\nEND:VCARD`
+    const vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${profile.name}\nN:;${profile.name};;;\nORG:${profile.organization}\nTITLE:${profile.title}\nTEL:${profile.phone}\nEMAIL:${profile.email}\nEND:VCARD`
     const blob = new Blob([vCardData], { type: 'text/vcard' })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
