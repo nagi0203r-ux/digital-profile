@@ -290,7 +290,7 @@ export function SNSLinkManagement() {
         {items.length > 0 && (
           <div className="sticky bottom-0 bg-gray-50 pt-4 pb-8">
             <button onClick={handleSave} disabled={saving}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-4 rounded-2xl transition-colors shadow-lg">
+              className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 text-gray-900 font-semibold py-4 rounded-2xl transition-colors shadow-lg">
               {saving ? "保存中..." : "保存する"}
             </button>
           </div>

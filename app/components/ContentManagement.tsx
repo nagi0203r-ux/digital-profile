@@ -419,7 +419,7 @@ export function ContentManagement() {
                     <button type="button"
                       onClick={() => handleEditSave(item.id)}
                       disabled={editSaving || !editForm.title || !editForm.url}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-3 rounded-2xl text-sm transition-colors">
+                      className="flex-1 bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 text-gray-900 font-semibold py-3 rounded-2xl text-sm transition-colors">
                       {editSaving ? "保存中..." : "保存する"}
                     </button>
                     <button type="button"
