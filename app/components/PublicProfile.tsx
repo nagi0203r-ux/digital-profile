@@ -350,7 +350,7 @@ export function PublicProfile({ userId }: { userId: string }) {
 
                   {/* 連絡先に追加 */}
                   <button
-                    onClick={() => { handleSaveContact(); setShowSaveModal(false) }}
+                    onClick={() => { handleSaveContact() }}
                     className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 rounded-2xl transition-colors text-left"
                   >
                     <UserPlus className="w-5 h-5 text-green-600 flex-shrink-0" />
