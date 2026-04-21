@@ -288,9 +288,9 @@ export function PublicProfile({ userId }: { userId: string }) {
 
           {/* 保存方法モーダル */}
           {showSaveModal && (
-            <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4 pb-4 sm:pb-0">
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center px-4">
               <div className="absolute inset-0 bg-black/50" onClick={() => setShowSaveModal(false)} />
-              <div className="relative bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl">
+              <div className="relative bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-base font-semibold text-gray-900">プロフィールを保存する</h2>
                   <button onClick={() => setShowSaveModal(false)} className="p-1.5 hover:bg-gray-100 rounded-xl">
