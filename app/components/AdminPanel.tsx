@@ -22,8 +22,13 @@ export function AdminPanel() {
   const [loading, setLoading] = useState(true)
   const [origin, setOrigin] = useState("")
 
-  // PIN認証
-  const [pinVerified, setPinVerified] = useState(false)
+  // PIN認証（sessionStorageで再読み込み後も維持）
+  const [pinVerified, setPinVerified] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('admin_pin_verified') === 'true'
+    }
+    return false
+  })
   const [pin, setPin] = useState("")
   const [pinError, setPinError] = useState(false)
 
@@ -112,6 +117,7 @@ export function AdminPanel() {
   }
 
   const handleLogout = async () => {
+    sessionStorage.removeItem('admin_pin_verified')
     await supabase.auth.signOut()
     router.push("/login")
   }
@@ -119,6 +125,7 @@ export function AdminPanel() {
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (pin === ADMIN_PIN) {
+      sessionStorage.setItem('admin_pin_verified', 'true')
       setPinVerified(true)
       setPinError(false)
     } else {
