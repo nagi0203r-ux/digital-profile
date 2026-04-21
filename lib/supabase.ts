@@ -23,6 +23,7 @@ export type Profile = {
   show_email: boolean
   show_save_contact: boolean
   created_at?: string
+  updated_at?: string
 }
 
 export type Link = {

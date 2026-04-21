@@ -61,7 +61,7 @@ export function AdminPanel() {
   const fetchProfiles = async () => {
     const { data } = await supabase
       .from('profiles')
-      .select('id, user_id, name, organization, title, email, created_at')
+      .select('id, user_id, name, organization, title, email, created_at, updated_at')
       .order('created_at', { ascending: false })
     if (data) setProfiles(data as Profile[])
   }
@@ -235,6 +235,7 @@ export function AdminPanel() {
                 <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">名前</th>
                 <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">会社名 / 肩書き</th>
                 <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">登録日時</th>
+                <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">最終更新</th>
                 <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">プレビュー</th>
                 <th className="w-12 px-5 py-3" />
               </tr>
@@ -242,7 +243,7 @@ export function AdminPanel() {
             <tbody>
               {profiles.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-5 py-12 text-center text-sm text-gray-400">
+                  <td colSpan={7} className="px-5 py-12 text-center text-sm text-gray-400">
                     登録ユーザーがいません
                   </td>
                 </tr>
@@ -261,6 +262,11 @@ export function AdminPanel() {
                   </td>
                   <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
                     {formatDate(p.created_at)}
+                  </td>
+                  <td className="px-5 py-4 text-sm whitespace-nowrap">
+                    {p.updated_at && p.updated_at !== p.created_at
+                      ? <span className="text-gray-600">{formatDate(p.updated_at)}</span>
+                      : <span className="text-gray-300">—</span>}
                   </td>
                   <td className="px-5 py-4">
                     <a href={`${origin}/p/${p.user_id}`} target="_blank" rel="noopener noreferrer"
@@ -307,13 +313,20 @@ export function AdminPanel() {
                   {p.title && <p className="text-xs text-gray-400">{p.title}</p>}
                 </div>
               )}
-              <div className="flex items-center justify-between border-t border-gray-100 pt-2 mt-2">
-                <p className="text-xs text-gray-400">{formatDate(p.created_at)}</p>
-                <a href={`${origin}/p/${p.user_id}`} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 bg-blue-50 px-2.5 py-1.5 rounded-lg">
-                  <ExternalLink className="w-3 h-3" />
-                  プレビュー
-                </a>
+              <div className="border-t border-gray-100 pt-2 mt-2 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-gray-400">登録：{formatDate(p.created_at)}</p>
+                </div>
+                {p.updated_at && p.updated_at !== p.created_at && (
+                  <p className="text-xs text-gray-400">更新：{formatDate(p.updated_at)}</p>
+                )}
+                <div className="flex justify-end">
+                  <a href={`${origin}/p/${p.user_id}`} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 bg-blue-50 px-2.5 py-1.5 rounded-lg">
+                    <ExternalLink className="w-3 h-3" />
+                    プレビュー
+                  </a>
+                </div>
               </div>
             </div>
           ))}
