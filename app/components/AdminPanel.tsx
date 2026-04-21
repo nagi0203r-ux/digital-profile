@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Users, ExternalLink, LogOut, UserPlus, Trash2, X } from "lucide-react"
 import { supabase, type Profile } from "@/lib/supabase"
 
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "nagi.0203r@gmail.com"
+const ADMIN_EMAIL = "nagi.0203r@gmail.com"
 const ADMIN_PIN = "1026"
 
 function formatDate(iso?: string) {
