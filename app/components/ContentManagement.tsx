@@ -249,7 +249,7 @@ export function ContentManagement() {
 
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                <span className="flex items-center gap-1.5"><Link2 className="w-4 h-4" />バナー画像（Google Driveリンク・任意）</span>
+                <span className="flex items-center gap-1.5"><Link2 className="w-4 h-4" />バナー画像（Google Driveリンク・任意・推奨サイズ：1200×600px）</span>
               </label>
               <input type="text" value={form.driveUrl}
                 onChange={e => setForm(prev => ({ ...prev, driveUrl: e.target.value }))}
@@ -382,7 +382,7 @@ export function ContentManagement() {
 
                   <div>
                     <label className="block mb-1.5 text-sm text-gray-700">
-                      <span className="flex items-center gap-1.5"><Link2 className="w-3.5 h-3.5" />バナー画像（Google Driveリンク）</span>
+                      <span className="flex items-center gap-1.5"><Link2 className="w-3.5 h-3.5" />バナー画像（Google Driveリンク・推奨サイズ：1200×600px）</span>
                     </label>
                     <input type="text" value={editForm.driveUrl}
                       onChange={e => setEditForm(prev => ({ ...prev, driveUrl: e.target.value }))}
