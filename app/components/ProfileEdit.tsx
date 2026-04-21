@@ -145,7 +145,7 @@ export function ProfileEdit() {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
         </div>
       </AdminLayout>
     )
@@ -165,7 +165,7 @@ export function ProfileEdit() {
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
         <form onSubmit={handleSubmit} className="space-y-6">
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
+          <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8">
             <label className="block mb-6">プロフィール画像</label>
             <div className="flex flex-col sm:flex-row items-center gap-6">
               {/* アバター（クリックでファイル選択） */}
@@ -218,7 +218,7 @@ export function ProfileEdit() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
+          <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8">
             <h2 className="mb-6">基本情報</h2>
             <div className="space-y-5">
               {[
@@ -232,7 +232,7 @@ export function ProfileEdit() {
                   <input type="text" name={f.name}
                     value={formData[f.name as keyof typeof formData] as string}
                     onChange={handleChange}
-                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                     placeholder={f.placeholder} />
                 </div>
               ))}
@@ -244,7 +244,7 @@ export function ProfileEdit() {
                 </div>
                 <textarea name="bio" value={formData.bio} onChange={handleChange}
                   rows={4} maxLength={200}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors resize-none text-gray-900 placeholder:text-gray-400"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl transition-colors resize-none text-gray-900 placeholder:text-gray-400"
                   placeholder="あなたについて簡単に紹介してください（最大200文字）" />
               </div>
 
@@ -256,7 +256,7 @@ export function ProfileEdit() {
                       onClick={() => setFormData({ ...formData, bioAlign: align })}
                       className={`px-4 py-3 rounded-xl transition-colors border-2 ${
                         formData.bioAlign === align
-                          ? "bg-blue-50 border-blue-600 text-blue-700"
+                          ? "bg-yellow-50 border-yellow-500 text-yellow-700"
                           : "bg-gray-50 border-transparent hover:border-gray-300"
                       }`}>
                       {align === "center" ? "中央揃え" : "左詰め"}
@@ -267,25 +267,25 @@ export function ProfileEdit() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
+          <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8">
             <h2 className="mb-6">連絡先情報</h2>
             <div className="space-y-5">
               <div>
                 <label className="block mb-2">電話番号</label>
                 <input type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                   placeholder="090-1234-5678" />
               </div>
               <div>
                 <label className="block mb-2">メールアドレス</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange}
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
+                  className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl transition-colors text-gray-900 placeholder:text-gray-400"
                   placeholder="you@example.com" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
+          <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8">
             <h2 className="mb-2">公開ページの表示設定</h2>
             <p className="text-sm text-gray-500 mb-6">オフにすると公開ページに表示されません</p>
             <div className="space-y-4">
@@ -297,7 +297,7 @@ export function ProfileEdit() {
                 <div key={label} className="flex items-center justify-between">
                   <span className="text-sm text-gray-900">{label}</span>
                   <button type="button" onClick={() => setter(!value)}
-                    className={`relative w-12 h-7 rounded-full transition-colors ${value ? 'bg-blue-600' : 'bg-gray-200'}`}>
+                    className={`relative w-12 h-7 rounded-full transition-colors ${value ? 'bg-yellow-400' : 'bg-gray-200'}`}>
                     <div className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-transform ${value ? 'translate-x-5' : ''}`} />
                   </button>
                 </div>
@@ -307,7 +307,7 @@ export function ProfileEdit() {
 
           <div className="sticky bottom-0 bg-gray-50 pt-4 pb-8">
             <button type="submit" disabled={saving}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-4 rounded-2xl transition-colors shadow-lg">
+              className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 text-gray-900 font-semibold py-4 rounded-2xl transition-colors shadow-lg">
               {saving ? "保存中..." : "保存する"}
             </button>
           </div>

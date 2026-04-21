@@ -201,17 +201,17 @@ export function ContentManagement() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 mb-6 space-y-1">
-          <p className="text-sm text-blue-900 font-medium">バナー画像の使い方</p>
-          <p className="text-sm text-blue-800">① Google Driveに画像をアップロード</p>
-          <p className="text-sm text-blue-800">② 「リンクを知っている人が閲覧可」に設定</p>
-          <p className="text-sm text-blue-800">③ 共有リンクをコピーして下の欄に貼り付け</p>
+        <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-4 mb-6 space-y-1">
+          <p className="text-sm text-yellow-900 font-medium">バナー画像の使い方</p>
+          <p className="text-sm text-yellow-800">① Google Driveに画像をアップロード</p>
+          <p className="text-sm text-yellow-800">② 「リンクを知っている人が閲覧可」に設定</p>
+          <p className="text-sm text-yellow-800">③ 共有リンクをコピーして下の欄に貼り付け</p>
         </div>
 
         {!showForm && (
           <div className="mb-6">
             <button onClick={() => { setShowForm(true); setEditingId(null) }}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
+              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
               <Plus className="w-5 h-5" /><span>コンテンツを追加</span>
             </button>
           </div>
@@ -219,14 +219,14 @@ export function ContentManagement() {
 
         {/* 追加フォーム */}
         {showForm && (
-          <form onSubmit={handleAdd} className="bg-white rounded-3xl border-2 border-gray-200 p-4 md:p-6 mb-6 space-y-4">
+          <form onSubmit={handleAdd} className="bg-white rounded-3xl border-2 border-yellow-200 p-4 md:p-6 mb-6 space-y-4">
             <h2>新しいコンテンツ</h2>
 
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">タイトル<span className="text-red-500 ml-1">*</span></label>
               <input type="text" value={form.title}
                 onChange={e => setForm(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="コンテンツのタイトル" required />
             </div>
 
@@ -235,7 +235,7 @@ export function ContentManagement() {
               <textarea value={form.description}
                 onChange={e => setForm(prev => ({ ...prev, description: e.target.value }))}
                 rows={3}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400 resize-none"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400 resize-none"
                 placeholder="コンテンツの簡単な説明を入力してください" />
             </div>
 
@@ -243,7 +243,7 @@ export function ContentManagement() {
               <label className="block mb-2 text-sm font-medium text-gray-700">リンクURL<span className="text-red-500 ml-1">*</span></label>
               <input type="url" value={form.url}
                 onChange={e => setForm(prev => ({ ...prev, url: e.target.value }))}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="https://example.com" required />
             </div>
 
@@ -253,7 +253,7 @@ export function ContentManagement() {
               </label>
               <input type="text" value={form.driveUrl}
                 onChange={e => setForm(prev => ({ ...prev, driveUrl: e.target.value }))}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="https://drive.google.com/file/d/xxxxx/view" />
               {addPreview && (
                 <div className="mt-3">
@@ -269,7 +269,7 @@ export function ContentManagement() {
 
             <div className="flex gap-3 pt-2">
               <button type="submit"
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-2xl">
+                className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-3 rounded-2xl">
                 追加
               </button>
               <button type="button"
@@ -291,7 +291,7 @@ export function ContentManagement() {
           )}
 
           {items.map((item, index) => (
-            <div key={item.id} className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden">
+            <div key={item.id} className="bg-white border-2 border-yellow-200 rounded-2xl overflow-hidden">
               {/* バナー */}
               {item.banner ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -335,11 +335,11 @@ export function ContentManagement() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button type="button"
                       onClick={() => editingId === item.id ? setEditingId(null) : startEdit(item)}
-                      className={`p-2 rounded-xl transition-colors ${editingId === item.id ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}>
+                      className={`p-2 rounded-xl transition-colors ${editingId === item.id ? 'bg-yellow-100 text-yellow-600' : 'hover:bg-gray-100 text-gray-600'}`}>
                       {editingId === item.id ? <X className="w-4 h-4" /> : <Pencil className="w-4 h-4" />}
                     </button>
                     <button type="button" onClick={() => handleToggle(item.id)}
-                      className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${item.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
+                      className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${item.enabled ? 'bg-yellow-400' : 'bg-gray-200'}`}>
                       <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${item.enabled ? 'translate-x-5' : ''}`} />
                     </button>
                     <button type="button" onClick={() => handleDelete(item.id)}
@@ -352,14 +352,14 @@ export function ContentManagement() {
 
               {/* 編集フォーム（インライン展開） */}
               {editingId === item.id && (
-                <div className="border-t-2 border-blue-100 bg-blue-50/40 p-4 md:p-5 space-y-4">
-                  <p className="text-sm font-medium text-blue-700">編集</p>
+                <div className="border-t-2 border-yellow-100 bg-yellow-50/40 p-4 md:p-5 space-y-4">
+                  <p className="text-sm font-medium text-yellow-700">編集</p>
 
                   <div>
                     <label className="block mb-1.5 text-sm text-gray-700">タイトル<span className="text-red-500 ml-1">*</span></label>
                     <input type="text" value={editForm.title}
                       onChange={e => setEditForm(prev => ({ ...prev, title: e.target.value }))}
-                      className="w-full bg-white border-2 border-gray-200 focus:border-blue-600 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400"
+                      className="w-full bg-white border-2 border-yellow-200 focus:border-yellow-500 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400"
                       placeholder="タイトル" />
                   </div>
 
@@ -368,7 +368,7 @@ export function ContentManagement() {
                     <textarea value={editForm.description}
                       onChange={e => setEditForm(prev => ({ ...prev, description: e.target.value }))}
                       rows={2}
-                      className="w-full bg-white border-2 border-gray-200 focus:border-blue-600 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400 resize-none"
+                      className="w-full bg-white border-2 border-yellow-200 focus:border-yellow-500 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400 resize-none"
                       placeholder="説明文" />
                   </div>
 
@@ -376,7 +376,7 @@ export function ContentManagement() {
                     <label className="block mb-1.5 text-sm text-gray-700">リンクURL<span className="text-red-500 ml-1">*</span></label>
                     <input type="url" value={editForm.url}
                       onChange={e => setEditForm(prev => ({ ...prev, url: e.target.value }))}
-                      className="w-full bg-white border-2 border-gray-200 focus:border-blue-600 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400"
+                      className="w-full bg-white border-2 border-yellow-200 focus:border-yellow-500 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400"
                       placeholder="https://example.com" />
                   </div>
 
@@ -386,7 +386,7 @@ export function ContentManagement() {
                     </label>
                     <input type="text" value={editForm.driveUrl}
                       onChange={e => setEditForm(prev => ({ ...prev, driveUrl: e.target.value }))}
-                      className="w-full bg-white border-2 border-gray-200 focus:border-blue-600 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400"
+                      className="w-full bg-white border-2 border-yellow-200 focus:border-yellow-500 focus:outline-none px-4 py-2.5 rounded-xl text-gray-900 placeholder:text-gray-400"
                       placeholder="https://drive.google.com/file/d/xxxxx/view" />
 
                     {/* バナープレビュー or 削除ボタン */}
@@ -424,7 +424,7 @@ export function ContentManagement() {
                     </button>
                     <button type="button"
                       onClick={() => setEditingId(null)}
-                      className="flex-1 bg-white border-2 border-gray-200 hover:bg-gray-50 py-3 rounded-2xl text-sm text-gray-700 transition-colors">
+                      className="flex-1 bg-white border-2 border-yellow-200 hover:bg-yellow-50 py-3 rounded-2xl text-sm text-gray-700 transition-colors">
                       キャンセル
                     </button>
                   </div>

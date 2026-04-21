@@ -115,16 +115,16 @@ export function ThemeSettings() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8 mb-6">
+        <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8 mb-6">
           <h2 className="mb-6">テーマ</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {themeOptions.map(theme => (
               <button key={theme.id} onClick={() => setSelectedTheme(theme.id)}
                 className={`relative p-4 rounded-2xl border-2 transition-all text-left ${
-                  selectedTheme === theme.id ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+                  selectedTheme === theme.id ? 'border-yellow-500 bg-yellow-50' : 'border-yellow-200 hover:border-yellow-300'
                 }`}>
                 {selectedTheme === theme.id && (
-                  <div className="absolute top-3 right-3 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                  <div className="absolute top-3 right-3 w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center">
                     <Check className="w-4 h-4 text-white" />
                   </div>
                 )}
@@ -141,13 +141,13 @@ export function ThemeSettings() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8 mb-6">
+        <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8 mb-6">
           <h2 className="mb-6">メインボタンカラー</h2>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
             {accentColors.map(color => (
               <button key={color.id} onClick={() => setSelectedAccent(color.id)}
                 className={`relative aspect-square rounded-2xl border-2 transition-all ${
-                  selectedAccent === color.id ? 'border-gray-900 scale-95' : 'border-gray-200 hover:border-gray-300'
+                  selectedAccent === color.id ? 'border-yellow-500 scale-95' : 'border-yellow-200 hover:border-yellow-300'
                 }`}>
                 <div className={`w-full h-full ${color.color} rounded-xl`} />
                 {selectedAccent === color.id && (
@@ -162,11 +162,11 @@ export function ThemeSettings() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8 mb-6">
+        <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8 mb-6">
           <div className="flex items-center justify-between mb-6">
             <h2>プレビュー</h2>
             {userId && (
-              <Link href={`/p/${userId}`} target="_blank" className="text-sm text-blue-600 hover:text-blue-700">
+              <Link href={`/p/${userId}`} target="_blank" className="text-sm text-yellow-700 hover:text-yellow-800 font-medium">
                 実際のページを見る
               </Link>
             )}
@@ -189,7 +189,7 @@ export function ThemeSettings() {
 
         <div className="sticky bottom-0 bg-gray-50 pt-4 pb-8">
           <button onClick={handleSave} disabled={saving}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-4 rounded-2xl transition-colors shadow-lg">
+            className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 text-gray-900 font-semibold py-4 rounded-2xl transition-colors shadow-lg">
             {saving ? "保存中..." : "保存する"}
           </button>
         </div>

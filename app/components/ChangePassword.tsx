@@ -64,10 +64,10 @@ export function ChangePassword() {
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 space-y-6">
 
         {/* メールアドレス変更 */}
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
+        <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-2xl bg-blue-100 flex items-center justify-center">
-              <Mail className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-2xl bg-yellow-100 flex items-center justify-center">
+              <Mail className="w-5 h-5 text-yellow-600" />
             </div>
             <h2>メールアドレス変更</h2>
           </div>
@@ -78,24 +78,24 @@ export function ChangePassword() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="new@example.com"
                 required
               />
             </div>
             <p className="text-xs text-gray-700">変更後、新しいメールアドレスに確認メールが届きます。</p>
             <button type="submit" disabled={savingEmail}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-3.5 rounded-2xl transition-colors">
+              className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 text-gray-900 font-semibold py-3.5 rounded-2xl transition-colors">
               {savingEmail ? "処理中..." : "メールアドレスを変更"}
             </button>
           </form>
         </div>
 
         {/* パスワード変更 */}
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8">
+        <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-2xl bg-purple-100 flex items-center justify-center">
-              <Lock className="w-5 h-5 text-purple-600" />
+            <div className="w-10 h-10 rounded-2xl bg-yellow-100 flex items-center justify-center">
+              <Lock className="w-5 h-5 text-yellow-600" />
             </div>
             <h2>パスワード変更</h2>
           </div>
@@ -106,7 +106,7 @@ export function ChangePassword() {
                 type="password"
                 value={newPassword}
                 onChange={e => setNewPassword(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="6文字以上"
                 minLength={6}
                 required
@@ -118,14 +118,14 @@ export function ChangePassword() {
                 type="password"
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="もう一度入力"
                 minLength={6}
                 required
               />
             </div>
             <button type="submit" disabled={savingPassword}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white py-3.5 rounded-2xl transition-colors">
+              className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 text-gray-900 font-semibold py-3.5 rounded-2xl transition-colors">
               {savingPassword ? "処理中..." : "パスワードを変更"}
             </button>
           </form>

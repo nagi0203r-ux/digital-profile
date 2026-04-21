@@ -55,12 +55,12 @@ export function Dashboard() {
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
 
         {/* プロフィールプレビューカード */}
-        <div className="bg-white rounded-3xl border-2 border-gray-200 p-5 md:p-8 mb-6">
+        <div className="bg-white rounded-3xl border-2 border-yellow-200 p-5 md:p-8 mb-6">
           <div className="flex items-start justify-between mb-6">
             <h2 className="text-xl">プロフィールプレビュー</h2>
             {userId && (
               <Link href={`/p/${userId}`} target="_blank"
-                className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
+                className="flex items-center gap-2 text-yellow-700 hover:text-yellow-800">
                 <Eye className="w-5 h-5" />
                 <span>表示</span>
               </Link>
@@ -87,7 +87,7 @@ export function Dashboard() {
             <div className="bg-gray-50 rounded-2xl px-3 py-3 flex items-center gap-2 mb-6 min-w-0">
               <span className="text-xs text-gray-700 flex-1 truncate min-w-0">{publicUrl}</span>
               <button onClick={handleCopy}
-                className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 flex-shrink-0">
+                className="flex items-center gap-1 text-sm text-yellow-700 hover:text-yellow-800 flex-shrink-0">
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 <span className="text-xs">{copied ? "コピー済み" : "コピー"}</span>
               </button>
@@ -95,17 +95,17 @@ export function Dashboard() {
           )}
 
           <Link href="/edit-profile"
-            className="block w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition-colors text-center">
+            className="block w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-4 rounded-2xl transition-colors text-center">
             プロフィール編集
           </Link>
         </div>
 
         {/* クイックアクション */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link href="/edit-profile" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
+          <Link href="/edit-profile" className="bg-white rounded-3xl border-2 border-yellow-200 p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <Edit className="w-6 h-6 text-blue-600" />
+              <div className="w-12 h-12 rounded-2xl bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                <Edit className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
                 <h3 className="mb-1">プロフィール編集</h3>
@@ -114,10 +114,10 @@ export function Dashboard() {
             </div>
           </Link>
 
-          <Link href="/edit-sns" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
+          <Link href="/edit-sns" className="bg-white rounded-3xl border-2 border-yellow-200 p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center flex-shrink-0">
-                <Share2 className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 rounded-2xl bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                <Share2 className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
                 <h3 className="mb-1">SNSリンク管理</h3>
@@ -126,10 +126,10 @@ export function Dashboard() {
             </div>
           </Link>
 
-          <Link href="/edit-content" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
+          <Link href="/edit-content" className="bg-white rounded-3xl border-2 border-yellow-200 p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center flex-shrink-0">
-                <Images className="w-6 h-6 text-orange-600" />
+              <div className="w-12 h-12 rounded-2xl bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                <Images className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
                 <h3 className="mb-1">コンテンツ管理</h3>
@@ -138,10 +138,10 @@ export function Dashboard() {
             </div>
           </Link>
 
-          <Link href="/theme-settings" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
+          <Link href="/theme-settings" className="bg-white rounded-3xl border-2 border-yellow-200 p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center flex-shrink-0">
-                <Palette className="w-6 h-6 text-pink-600" />
+              <div className="w-12 h-12 rounded-2xl bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                <Palette className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
                 <h3 className="mb-1">デザイン設定</h3>
@@ -150,10 +150,10 @@ export function Dashboard() {
             </div>
           </Link>
 
-          <Link href="/change-password" className="bg-white rounded-3xl border-2 border-gray-200 p-6 hover:bg-gray-50 transition-colors">
+          <Link href="/change-password" className="bg-white rounded-3xl border-2 border-yellow-200 p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center flex-shrink-0">
-                <KeyRound className="w-6 h-6 text-purple-600" />
+              <div className="w-12 h-12 rounded-2xl bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                <KeyRound className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
                 <h3 className="mb-1">パスワード・メールアドレス変更</h3>

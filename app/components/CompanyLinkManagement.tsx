@@ -129,15 +129,15 @@ export function CompanyLinkManagement() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 mb-6">
-          <p className="text-sm text-blue-900">公開ページのSNSリンクの上に2列で表示されます。最大{MAX_COMPANY}件まで登録できます。（現在 {items.length}/{MAX_COMPANY}）</p>
+        <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-4 mb-6">
+          <p className="text-sm text-yellow-900">公開ページのSNSリンクの上に2列で表示されます。最大{MAX_COMPANY}件まで登録できます。（現在 {items.length}/{MAX_COMPANY}）</p>
         </div>
 
         {/* 追加ボタン */}
         {!showForm && items.length < MAX_COMPANY && (
           <div className="mb-6">
             <button onClick={() => setShowForm(true)}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
+              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
               <Plus className="w-5 h-5" /><span>会社URLを追加</span>
             </button>
           </div>
@@ -145,25 +145,25 @@ export function CompanyLinkManagement() {
 
         {/* 追加フォーム */}
         {showForm && (
-          <form onSubmit={handleAdd} className="bg-white rounded-3xl border-2 border-gray-200 p-4 md:p-6 mb-6 space-y-4">
+          <form onSubmit={handleAdd} className="bg-white rounded-3xl border-2 border-yellow-200 p-4 md:p-6 mb-6 space-y-4">
             <h2>新しい会社URL</h2>
             <div>
               <label className="block mb-2 text-sm text-gray-700">ボタン名<span className="text-red-500 ml-1">*</span></label>
               <input type="text" value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="公式サイト" required />
             </div>
             <div>
               <label className="block mb-2 text-sm text-gray-700">URL<span className="text-red-500 ml-1">*</span></label>
               <input type="url" value={newUrl}
                 onChange={e => setNewUrl(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
+                className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-4 py-3 rounded-xl text-gray-900 placeholder:text-gray-400"
                 placeholder="https://example.com" required />
             </div>
             <div className="flex gap-3 pt-1">
               <button type="submit"
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-2xl">追加</button>
+                className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-3 rounded-2xl">追加</button>
               <button type="button"
                 onClick={() => { setShowForm(false); setNewTitle(""); setNewUrl("") }}
                 className="flex-1 bg-white border-2 border-gray-200 hover:bg-gray-50 py-3 rounded-2xl text-gray-700">キャンセル</button>
@@ -180,7 +180,7 @@ export function CompanyLinkManagement() {
         ) : (
           <div className="space-y-3 mb-6">
             {items.map((item, idx) => (
-              <div key={item.id} className="bg-white border-2 border-gray-200 rounded-2xl p-3">
+              <div key={item.id} className="bg-white border-2 border-yellow-200 rounded-2xl p-3">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex gap-0.5 flex-shrink-0">
                     <button type="button" onClick={() => handleMove(idx, 'up')} disabled={idx === 0}
@@ -197,7 +197,7 @@ export function CompanyLinkManagement() {
                   </div>
                   <div className="flex-1 min-w-0" />
                   <button type="button" onClick={() => handleToggle(item.id)}
-                    className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${item.enabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
+                    className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${item.enabled ? 'bg-yellow-400' : 'bg-gray-200'}`}>
                     <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${item.enabled ? 'translate-x-5' : ''}`} />
                   </button>
                   <button type="button" onClick={() => handleDelete(item.id)}
@@ -209,12 +209,12 @@ export function CompanyLinkManagement() {
                   <input type="text"
                     value={item.title}
                     onChange={e => handleInlineChange(item.id, 'title', e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-3 py-2 rounded-xl text-sm font-medium text-gray-900"
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-3 py-2 rounded-xl text-sm font-medium text-gray-900"
                     placeholder="ボタン名" />
                   <input type="url"
                     value={item.url}
                     onChange={e => handleInlineChange(item.id, 'url', e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-600 focus:outline-none px-3 py-2 rounded-xl text-xs text-gray-700"
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-yellow-500 focus:outline-none px-3 py-2 rounded-xl text-xs text-gray-700"
                     placeholder="https://example.com" />
                 </div>
               </div>
