@@ -271,7 +271,7 @@ export function PublicProfile({ userId }: { userId: string }) {
                     <div className={`w-full aspect-square ${theme.buttonSecondary} rounded-2xl flex items-center justify-center transition-all hover:shadow-md group-hover:scale-105`}>
                       <div className={theme.textMuted}>{getIcon(link.icon)}</div>
                     </div>
-                    <span className={`text-xs ${theme.textMuted} text-center truncate w-full px-1`}>{link.title}</span>
+                    <span className={`text-[10px] leading-tight ${theme.textMuted} text-center w-full px-0.5 line-clamp-1 break-all`}>{link.title}</span>
                   </a>
                 ))}
               </div>
