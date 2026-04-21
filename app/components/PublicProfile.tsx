@@ -288,7 +288,7 @@ export function PublicProfile({ userId }: { userId: string }) {
 
           {/* 保存方法モーダル */}
           {showSaveModal && (
-            <div className="fixed inset-0 z-[9999] flex items-start justify-center px-4 pt-4">
+            <div className="fixed inset-0 z-[9999] flex items-start justify-center px-4 pt-[26px]">
               <div className="absolute inset-0 bg-black/50" onClick={() => setShowSaveModal(false)} />
               <div className="relative bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between mb-5">
