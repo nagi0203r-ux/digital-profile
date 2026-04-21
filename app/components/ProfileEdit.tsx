@@ -153,12 +153,12 @@ export function ProfileEdit() {
 
   return (
     <AdminLayout>
-      <div className="bg-white border-b border-gray-200 sticky top-14 md:top-0 z-10">
+      <div className="bg-yellow-400 sticky top-14 md:top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-4 flex items-center gap-4">
-          <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
-            <ArrowLeft className="w-5 h-5" />
+          <Link href="/dashboard" className="p-2 hover:bg-yellow-500 rounded-xl transition-colors">
+            <ArrowLeft className="w-5 h-5 text-yellow-900" />
           </Link>
-          <h1 className="text-xl">プロフィール編集</h1>
+          <h1 className="text-xl font-bold text-yellow-900">プロフィール編集</h1>
         </div>
       </div>
 
