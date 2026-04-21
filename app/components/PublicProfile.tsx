@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { User, Mail, Phone, Globe, MapPin } from "lucide-react"
+import { User, Mail, Phone, Globe, MapPin, Share2, Copy, Check, X, Bookmark } from "lucide-react"
 import { FaLine, FaXTwitter, FaInstagram, FaYoutube, FaFacebook, FaTiktok } from "react-icons/fa6"
 import { supabase, type Profile, type Link } from "@/lib/supabase"
 
@@ -154,6 +154,33 @@ export function PublicProfile({ userId }: { userId: string }) {
   const snsLinks = links.filter(l => l.enabled && l.type === "sns")
   const customLinks = links.filter(l => l.enabled && l.type === "custom")
 
+  const [showSaveModal, setShowSaveModal] = useState(false)
+  const [urlCopied, setUrlCopied] = useState(false)
+
+  const profileUrl = typeof window !== 'undefined' ? window.location.href : ''
+
+  const handleSaveProfile = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${profile.name}のデジタル名刺`,
+          text: `${profile.name}${profile.organization ? `（${profile.organization}）` : ''}のプロフィールです。`,
+          url: profileUrl,
+        })
+      } catch {
+        // キャンセルされた場合は何もしない
+      }
+    } else {
+      setShowSaveModal(true)
+    }
+  }
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(profileUrl)
+    setUrlCopied(true)
+    setTimeout(() => setUrlCopied(false), 2000)
+  }
+
   const handleSaveContact = () => {
     const vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${profile.name}\nORG:${profile.organization}\nTITLE:${profile.title}\nTEL:${profile.phone}\nEMAIL:${profile.email}\nEND:VCARD`
     const blob = new Blob([vCardData], { type: 'text/vcard' })
@@ -242,6 +269,67 @@ export function PublicProfile({ userId }: { userId: string }) {
               </div>
             )}
           </div>
+
+          {/* このプロフィールを保存ボタン */}
+          <div className="px-8 mb-8">
+            <button
+              onClick={handleSaveProfile}
+              className={`w-full flex items-center justify-center gap-2 ${theme.buttonSecondary} py-3.5 rounded-lg transition-all hover:shadow-sm`}
+            >
+              <Share2 className="w-4 h-4" />
+              <span className="text-sm font-medium">このプロフィールを保存・共有</span>
+            </button>
+          </div>
+
+          {/* 保存方法モーダル（PC用フォールバック） */}
+          {showSaveModal && (
+            <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4 pb-4 sm:pb-0">
+              <div className="absolute inset-0 bg-black/50" onClick={() => setShowSaveModal(false)} />
+              <div className="relative bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl">
+                <div className="flex items-center justify-between mb-5">
+                  <h2 className="text-base font-semibold text-gray-900">プロフィールを保存する</h2>
+                  <button onClick={() => setShowSaveModal(false)} className="p-1.5 hover:bg-gray-100 rounded-xl">
+                    <X className="w-5 h-5 text-gray-500" />
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {/* URLコピー */}
+                  <button
+                    onClick={handleCopyUrl}
+                    className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 rounded-2xl transition-colors text-left"
+                  >
+                    {urlCopied ? <Check className="w-5 h-5 text-green-600 flex-shrink-0" /> : <Copy className="w-5 h-5 text-gray-600 flex-shrink-0" />}
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">{urlCopied ? "コピーしました！" : "URLをコピー"}</p>
+                      <p className="text-xs text-gray-500">メモやLINEに貼り付けて保存</p>
+                    </div>
+                  </button>
+
+                  {/* メールで自分に送る */}
+                  <a
+                    href={`mailto:?subject=${encodeURIComponent(`${profile.name}のデジタル名刺`)}&body=${encodeURIComponent(`${profile.name}さんのプロフィールページです。\n\n${profileUrl}`)}`}
+                    className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 rounded-2xl transition-colors"
+                  >
+                    <Mail className="w-5 h-5 text-gray-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">メールで自分に送る</p>
+                      <p className="text-xs text-gray-500">メールアプリが開きます</p>
+                    </div>
+                  </a>
+
+                  {/* ブックマーク案内 */}
+                  <div className="flex items-center gap-3 bg-yellow-50 border border-yellow-200 px-4 py-3.5 rounded-2xl">
+                    <Bookmark className="w-5 h-5 text-yellow-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">ブックマークに追加</p>
+                      <p className="text-xs text-gray-500">ブラウザの ☆ アイコンまたは Ctrl+D</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {companyLinks.length > 0 && (
             <div className="px-8 pb-6">
