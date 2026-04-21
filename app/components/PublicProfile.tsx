@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { User, Mail, Phone, Globe, MapPin, Share2, Copy, Check, X, Bookmark } from "lucide-react"
+import { User, Mail, Phone, Globe, MapPin, Share2, Copy, Check, X, Bookmark, FileText, UserPlus, ChevronRight } from "lucide-react"
 import { FaLine, FaXTwitter, FaInstagram, FaYoutube, FaFacebook, FaTiktok } from "react-icons/fa6"
 import { supabase, type Profile, type Link } from "@/lib/supabase"
 
@@ -110,6 +110,9 @@ export function PublicProfile({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true)
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [urlCopied, setUrlCopied] = useState(false)
+  const [showEmailInput, setShowEmailInput] = useState(false)
+  const [emailInput, setEmailInput] = useState("")
+  const [noteCopied, setNoteCopied] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -158,26 +161,29 @@ export function PublicProfile({ userId }: { userId: string }) {
 
   const profileUrl = typeof window !== 'undefined' ? window.location.href : ''
 
-  const handleSaveProfile = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `${profile.name}のデジタル名刺`,
-          text: `${profile.name}${profile.organization ? `（${profile.organization}）` : ''}のプロフィールです。`,
-          url: profileUrl,
-        })
-      } catch {
-        // キャンセルされた場合は何もしない
-      }
-    } else {
-      setShowSaveModal(true)
-    }
+  const handleSaveProfile = () => {
+    setShowEmailInput(false)
+    setEmailInput("")
+    setShowSaveModal(true)
   }
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(profileUrl)
     setUrlCopied(true)
     setTimeout(() => setUrlCopied(false), 2000)
+  }
+
+  const handleCopyForNote = () => {
+    navigator.clipboard.writeText(`${profile.name}のデジタル名刺\n${profileUrl}`)
+    setNoteCopied(true)
+    setTimeout(() => setNoteCopied(false), 3000)
+  }
+
+  const handleSendEmail = () => {
+    if (!emailInput) return
+    const subject = encodeURIComponent(`${profile.name}のデジタル名刺`)
+    const body = encodeURIComponent(`${profile.name}さんのプロフィールページです。\n\n${profileUrl}`)
+    window.location.href = `mailto:${emailInput}?subject=${subject}&body=${body}`
   }
 
   const handleSaveContact = () => {
@@ -280,7 +286,7 @@ export function PublicProfile({ userId }: { userId: string }) {
             </button>
           </div>
 
-          {/* 保存方法モーダル（PC用フォールバック） */}
+          {/* 保存方法モーダル */}
           {showSaveModal && (
             <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4 pb-4 sm:pb-0">
               <div className="absolute inset-0 bg-black/50" onClick={() => setShowSaveModal(false)} />
@@ -293,7 +299,68 @@ export function PublicProfile({ userId }: { userId: string }) {
                 </div>
 
                 <div className="space-y-3">
-                  {/* URLコピー */}
+
+                  {/* 自分にメールを送信する */}
+                  <div className="rounded-2xl overflow-hidden border border-gray-100">
+                    <button
+                      onClick={() => setShowEmailInput(v => !v)}
+                      className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 transition-colors text-left"
+                    >
+                      <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-gray-900">自分にメールを送信する</p>
+                        <p className="text-xs text-gray-500">メールアドレスを入力して送信</p>
+                      </div>
+                      <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${showEmailInput ? 'rotate-90' : ''}`} />
+                    </button>
+                    {showEmailInput && (
+                      <div className="bg-white px-4 pb-4 pt-2 space-y-2 border-t border-gray-100">
+                        <input
+                          type="email"
+                          value={emailInput}
+                          onChange={e => setEmailInput(e.target.value)}
+                          placeholder="あなたのメールアドレス"
+                          className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-400 focus:outline-none px-3 py-2.5 rounded-xl text-sm text-gray-900 placeholder:text-gray-400"
+                          autoFocus
+                        />
+                        <button
+                          onClick={handleSendEmail}
+                          disabled={!emailInput}
+                          className="w-full bg-blue-500 hover:bg-blue-600 disabled:opacity-40 text-white py-2.5 rounded-xl text-sm font-medium transition-colors"
+                        >
+                          メールアプリで開く
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 新規クイックメモに追加 */}
+                  <button
+                    onClick={handleCopyForNote}
+                    className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 rounded-2xl transition-colors text-left"
+                  >
+                    {noteCopied
+                      ? <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
+                      : <FileText className="w-5 h-5 text-yellow-500 flex-shrink-0" />}
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">{noteCopied ? "コピーしました！" : "新規クイックメモに追加"}</p>
+                      <p className="text-xs text-gray-500">{noteCopied ? "メモアプリに貼り付けてください" : "URLをコピーしてメモアプリに貼り付け"}</p>
+                    </div>
+                  </button>
+
+                  {/* 連絡先に追加 */}
+                  <button
+                    onClick={() => { handleSaveContact(); setShowSaveModal(false) }}
+                    className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 rounded-2xl transition-colors text-left"
+                  >
+                    <UserPlus className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">連絡先に追加</p>
+                      <p className="text-xs text-gray-500">名前・電話・メールを連絡先に保存</p>
+                    </div>
+                  </button>
+
+                  {/* URLをコピー */}
                   <button
                     onClick={handleCopyUrl}
                     className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 rounded-2xl transition-colors text-left"
@@ -301,30 +368,19 @@ export function PublicProfile({ userId }: { userId: string }) {
                     {urlCopied ? <Check className="w-5 h-5 text-green-600 flex-shrink-0" /> : <Copy className="w-5 h-5 text-gray-600 flex-shrink-0" />}
                     <div>
                       <p className="text-sm font-medium text-gray-900">{urlCopied ? "コピーしました！" : "URLをコピー"}</p>
-                      <p className="text-xs text-gray-500">メモやLINEに貼り付けて保存</p>
+                      <p className="text-xs text-gray-500">LINEやSMSに貼り付けて共有</p>
                     </div>
                   </button>
-
-                  {/* メールで自分に送る */}
-                  <a
-                    href={`mailto:?subject=${encodeURIComponent(`${profile.name}のデジタル名刺`)}&body=${encodeURIComponent(`${profile.name}さんのプロフィールページです。\n\n${profileUrl}`)}`}
-                    className="w-full flex items-center gap-3 bg-gray-50 hover:bg-gray-100 px-4 py-3.5 rounded-2xl transition-colors"
-                  >
-                    <Mail className="w-5 h-5 text-gray-600 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">メールで自分に送る</p>
-                      <p className="text-xs text-gray-500">メールアプリが開きます</p>
-                    </div>
-                  </a>
 
                   {/* ブックマーク案内 */}
                   <div className="flex items-center gap-3 bg-yellow-50 border border-yellow-200 px-4 py-3.5 rounded-2xl">
                     <Bookmark className="w-5 h-5 text-yellow-600 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-medium text-gray-900">ブックマークに追加</p>
-                      <p className="text-xs text-gray-500">ブラウザの ☆ アイコンまたは Ctrl+D</p>
+                      <p className="text-xs text-gray-500">iPhoneは共有ボタン→「ホーム画面に追加」</p>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
