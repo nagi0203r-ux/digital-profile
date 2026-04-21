@@ -206,6 +206,7 @@ export function ContentManagement() {
           <p className="text-sm text-yellow-800">① Google Driveに画像をアップロード</p>
           <p className="text-sm text-yellow-800">② 「リンクを知っている人が閲覧可」に設定</p>
           <p className="text-sm text-yellow-800">③ 共有リンクをコピーして下の欄に貼り付け</p>
+          <p className="text-sm text-yellow-800">📐 推奨サイズ：1200×600px（横長・最大5MB）</p>
         </div>
 
         {!showForm && (
