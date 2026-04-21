@@ -108,6 +108,8 @@ export function PublicProfile({ userId }: { userId: string }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [links, setLinks] = useState<Link[]>([])
   const [loading, setLoading] = useState(true)
+  const [showSaveModal, setShowSaveModal] = useState(false)
+  const [urlCopied, setUrlCopied] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -153,9 +155,6 @@ export function PublicProfile({ userId }: { userId: string }) {
   const companyLinks = links.filter(l => l.enabled && l.type === "company")
   const snsLinks = links.filter(l => l.enabled && l.type === "sns")
   const customLinks = links.filter(l => l.enabled && l.type === "custom")
-
-  const [showSaveModal, setShowSaveModal] = useState(false)
-  const [urlCopied, setUrlCopied] = useState(false)
 
   const profileUrl = typeof window !== 'undefined' ? window.location.href : ''
 
