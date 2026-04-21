@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import {
   LayoutDashboard, User, Palette, Eye, LogOut,
-  Share2, Images, KeyRound, Menu, X, Globe,
+  Share2, Images, KeyRound, Menu, X, Globe, BookOpen,
 } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 
@@ -17,6 +17,7 @@ const navItems = [
   { href: "/edit-content",    label: "コンテンツ管理",   icon: Images },
   { href: "/theme-settings",  label: "デザイン設定",     icon: Palette },
   { href: "/change-password", label: "パスワード変更",   icon: KeyRound },
+  { href: "/manual",          label: "使い方マニュアル", icon: BookOpen },
 ]
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -64,9 +65,13 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           return (
             <Link key={item.href} href={item.href}
               className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-colors text-sm font-medium ${
-                isActive
-                  ? "bg-blue-50 text-blue-700"
-                  : "text-gray-900 hover:bg-gray-100"
+                item.href === "/manual"
+                  ? isActive
+                    ? "bg-yellow-100 text-yellow-700"
+                    : "text-yellow-700 hover:bg-yellow-50 border border-yellow-200"
+                  : isActive
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-gray-900 hover:bg-gray-100"
               }`}>
               <Icon className="w-5 h-5 flex-shrink-0" />
               {item.label}
