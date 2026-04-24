@@ -7,7 +7,7 @@ import { toast } from "sonner"
 import { supabase, type Link as LinkItem } from "@/lib/supabase"
 import { AdminLayout } from "./AdminLayout"
 
-const MAX_COMPANY = 6
+const MAX_COMPANY = 8
 
 export function CompanyLinkManagement() {
   const [userId, setUserId] = useState<string | null>(null)
