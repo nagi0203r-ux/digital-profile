@@ -115,12 +115,7 @@ export function PublicProfile({ userId }: { userId: string }) {
   const [noteCopied, setNoteCopied] = useState(false)
   const [inAppUrl, setInAppUrl] = useState<string | null>(null)
   const [inAppTitle, setInAppTitle] = useState("")
-
-  const openInApp = (url: string, title: string, e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    setInAppTitle(title)
-    setInAppUrl(url)
-  }
+  const [inAppLoading, setInAppLoading] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -206,43 +201,74 @@ export function PublicProfile({ userId }: { userId: string }) {
     document.body.removeChild(a)
   }
 
+  const openInApp = (url: string, title: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    setInAppTitle(title)
+    setInAppUrl(url)
+    setInAppLoading(true)
+  }
+
   return (
     <div className={`min-h-screen ${theme.background}`}>
 
       {/* ── インアップブラウザ ── */}
       {inAppUrl && (
-        <div className="fixed inset-0 z-[99999] flex flex-col bg-black">
+        <div className="fixed inset-0 z-[99999] flex flex-col" style={{ backgroundColor: '#111' }}>
+
           {/* ツールバー */}
-          <div className="flex items-center gap-2 bg-gray-900 px-3 py-2 flex-shrink-0" style={{ paddingTop: 'max(env(safe-area-inset-top), 12px)' }}>
+          <div
+            className="flex items-center gap-2 bg-gray-900 px-3 py-2 flex-shrink-0"
+            style={{ paddingTop: 'max(env(safe-area-inset-top), 12px)' }}
+          >
             <button
               onClick={() => setInAppUrl(null)}
-              className="flex items-center gap-1.5 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-3 py-2 rounded-full text-sm flex-shrink-0"
+              className="flex items-center gap-1.5 bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 text-gray-900 font-semibold px-3 py-2 rounded-full text-sm flex-shrink-0"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>名刺に戻る</span>
+              <span>ホーム画面に戻る</span>
             </button>
             <div className="flex-1 bg-gray-800 rounded-lg px-3 py-1.5 min-w-0 overflow-hidden">
               <p className="text-gray-400 text-xs truncate">{inAppTitle}</p>
             </div>
-            <a
-              href={inAppUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setInAppUrl(null)}
-              className="p-2 text-gray-400 hover:text-white flex-shrink-0"
-              title="ブラウザで開く"
-            >
-              <ExternalLink className="w-4 h-4" />
-            </a>
           </div>
-          {/* コンテンツ */}
+
+          {/* ローディング */}
+          {inAppLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-white" style={{ top: 56 }}>
+              <div className="text-center">
+                <div className="w-10 h-10 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                <p className="text-sm text-gray-500">読み込み中...</p>
+              </div>
+            </div>
+          )}
+
+          {/* iframe */}
           <iframe
             key={inAppUrl}
             src={inAppUrl}
             className="flex-1 w-full bg-white"
             style={{ border: 'none' }}
             allow="fullscreen"
+            onLoad={() => setInAppLoading(false)}
           />
+
+          {/* 表示できない場合のフォールバックバナー */}
+          {!inAppLoading && (
+            <div className="bg-gray-900 border-t border-gray-700 px-4 py-2 flex items-center justify-between flex-shrink-0"
+              style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 8px)' }}>
+              <p className="text-gray-400 text-xs">表示されない場合</p>
+              <a
+                href={inAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setInAppUrl(null)}
+                className="flex items-center gap-1 text-yellow-400 text-sm font-medium"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>ブラウザで開く</span>
+              </a>
+            </div>
+          )}
         </div>
       )}
 
