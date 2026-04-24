@@ -114,6 +114,35 @@ export function PublicProfile({ userId }: { userId: string }) {
   const [emailInput, setEmailInput] = useState("")
   const [noteCopied, setNoteCopied] = useState(false)
 
+  // スクロール位置を保存・復元（同一ウィンドウ遷移からの戻りで一番上に飛ばないように）
+  useEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+
+    const key = `scroll_profile_${userId}`
+
+    const saveScroll = () => {
+      sessionStorage.setItem(key, String(window.scrollY))
+    }
+    const restoreScroll = (e: PageTransitionEvent) => {
+      if (e.persisted) return
+      const saved = sessionStorage.getItem(key)
+      if (saved) {
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: parseInt(saved), behavior: 'instant' })
+          sessionStorage.removeItem(key)
+        })
+      }
+    }
+
+    window.addEventListener('pagehide', saveScroll)
+    window.addEventListener('pageshow', restoreScroll as EventListener)
+    return () => {
+      window.removeEventListener('pagehide', saveScroll)
+      window.removeEventListener('pageshow', restoreScroll as EventListener)
+      if ('scrollRestoration' in history) history.scrollRestoration = 'auto'
+    }
+  }, [userId])
+
   useEffect(() => {
     async function load() {
       const { data: profileData } = await supabase
@@ -174,14 +203,14 @@ export function PublicProfile({ userId }: { userId: string }) {
   }
 
   const handleCopyForNote = () => {
-    navigator.clipboard.writeText(`${profile.name}のデジタル名刺\n${profileUrl}`)
+    navigator.clipboard.writeText(`${profile.name}のデジタルプロフィール\n${profileUrl}`)
     setNoteCopied(true)
     setTimeout(() => setNoteCopied(false), 3000)
   }
 
   const handleSendEmail = () => {
     if (!emailInput) return
-    const subject = encodeURIComponent(`${profile.name}のデジタル名刺`)
+    const subject = encodeURIComponent(`${profile.name}のデジタルプロフィール`)
     const body = encodeURIComponent(`${profile.name}さんのプロフィールページです。\n\n${profileUrl}`)
     window.location.href = `mailto:${emailInput}?subject=${subject}&body=${body}`
   }

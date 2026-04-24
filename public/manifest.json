@@ -1,7 +1,7 @@
 {
-  "name": "デジタル名刺",
-  "short_name": "デジタル名刺",
-  "description": "デジタル名刺の作成・管理アプリ",
+  "name": "デジタルプロフィール",
+  "short_name": "デジタルプロフィール",
+  "description": "デジタルプロフィールの作成・管理アプリ",
   "start_url": "/dashboard",
   "display": "standalone",
   "orientation": "portrait",

@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "デジタル名刺",
-  description: "デジタル名刺の作成・管理アプリ",
+  title: "デジタルプロフィール",
+  description: "デジタルプロフィールの作成・管理アプリ",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "デジタル名刺",
+    title: "デジタルプロフィール",
   },
   icons: {
     apple: "/icons/icon-192.png",

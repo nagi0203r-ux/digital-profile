@@ -151,7 +151,7 @@ function LoginContent() {
           </div>
         ) : (
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-semibold text-gray-900">デジタル名刺</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">デジタルプロフィール</h1>
             <p className="text-sm text-gray-600 mt-2">入力画面へログイン</p>
           </div>
         )}

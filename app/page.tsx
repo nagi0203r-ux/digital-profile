@@ -10,7 +10,7 @@ export default function HomePage() {
           </svg>
         </div>
         <h1 className="text-3xl font-bold text-gray-900 mb-3">Digital Profile</h1>
-        <p className="text-gray-500 mb-10">あなただけのデジタル名刺を作成しましょう</p>
+        <p className="text-gray-500 mb-10">あなただけのデジタルプロフィールを作成しましょう</p>
         <Link
           href="/login"
           className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-2xl transition-colors font-medium text-lg shadow-md"

@@ -116,7 +116,7 @@ export function Manual() {
               </div>
               <span className="text-sm font-semibold text-yellow-900 bg-yellow-300 px-3 py-1 rounded-full">使い方ガイド</span>
             </div>
-            <h1 className="text-2xl font-bold text-yellow-900 mb-1">デジタル名刺 入力マニュアル</h1>
+            <h1 className="text-2xl font-bold text-yellow-900 mb-1">デジタルプロフィール 入力マニュアル</h1>
             <p className="text-yellow-800 text-sm">各機能の操作方法をわかりやすくまとめました。</p>
           </div>
         </div>
