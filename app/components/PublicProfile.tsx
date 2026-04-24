@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { User, Mail, Phone, Globe, MapPin, Share2, Copy, Check, X, Bookmark, FileText, UserPlus, ChevronRight } from "lucide-react"
+import { User, Mail, Phone, Globe, MapPin, Share2, Copy, Check, X, Bookmark, FileText, UserPlus, ChevronRight, ArrowLeft, ExternalLink } from "lucide-react"
 import { FaLine, FaXTwitter, FaInstagram, FaYoutube, FaFacebook, FaTiktok } from "react-icons/fa6"
 import { supabase, type Profile, type Link } from "@/lib/supabase"
 
@@ -113,6 +113,14 @@ export function PublicProfile({ userId }: { userId: string }) {
   const [showEmailInput, setShowEmailInput] = useState(false)
   const [emailInput, setEmailInput] = useState("")
   const [noteCopied, setNoteCopied] = useState(false)
+  const [inAppUrl, setInAppUrl] = useState<string | null>(null)
+  const [inAppTitle, setInAppTitle] = useState("")
+
+  const openInApp = (url: string, title: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    setInAppTitle(title)
+    setInAppUrl(url)
+  }
 
   useEffect(() => {
     async function load() {
@@ -200,6 +208,44 @@ export function PublicProfile({ userId }: { userId: string }) {
 
   return (
     <div className={`min-h-screen ${theme.background}`}>
+
+      {/* ── インアップブラウザ ── */}
+      {inAppUrl && (
+        <div className="fixed inset-0 z-[99999] flex flex-col bg-black">
+          {/* ツールバー */}
+          <div className="flex items-center gap-2 bg-gray-900 px-3 py-2 flex-shrink-0" style={{ paddingTop: 'max(env(safe-area-inset-top), 12px)' }}>
+            <button
+              onClick={() => setInAppUrl(null)}
+              className="flex items-center gap-1.5 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-3 py-2 rounded-full text-sm flex-shrink-0"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>名刺に戻る</span>
+            </button>
+            <div className="flex-1 bg-gray-800 rounded-lg px-3 py-1.5 min-w-0 overflow-hidden">
+              <p className="text-gray-400 text-xs truncate">{inAppTitle}</p>
+            </div>
+            <a
+              href={inAppUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setInAppUrl(null)}
+              className="p-2 text-gray-400 hover:text-white flex-shrink-0"
+              title="ブラウザで開く"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          </div>
+          {/* コンテンツ */}
+          <iframe
+            key={inAppUrl}
+            src={inAppUrl}
+            className="flex-1 w-full bg-white"
+            style={{ border: 'none' }}
+            allow="fullscreen"
+          />
+        </div>
+      )}
+
       <div className="max-w-lg mx-auto">
         <div className={`${theme.cardBg} min-h-screen`}>
           <div className="h-12" />
@@ -393,7 +439,8 @@ export function PublicProfile({ userId }: { userId: string }) {
               </div>
               <div className="space-y-2">
                 {companyLinks.map(link => (
-                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
+                  <a key={link.id} href={link.url}
+                    onClick={(e) => openInApp(link.url, link.title, e)}
                     className={`flex items-center gap-3 ${theme.buttonSecondary} px-4 py-3 rounded-xl transition-all hover:shadow-sm`}>
                     <Globe className="w-4 h-4 flex-shrink-0" />
                     <span className="text-sm font-medium leading-snug">{link.title}</span>
@@ -410,7 +457,9 @@ export function PublicProfile({ userId }: { userId: string }) {
               </div>
               <div className={`grid gap-3 ${snsLinks.length <= 3 ? 'grid-cols-3' : snsLinks.length <= 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
                 {snsLinks.map(link => (
-                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                  <a key={link.id} href={link.url}
+                    onClick={(e) => openInApp(link.url, link.title, e)}
+                    className="flex flex-col items-center gap-2 group">
                     <div className={`w-full aspect-square ${theme.buttonSecondary} rounded-2xl flex items-center justify-center transition-all hover:shadow-md group-hover:scale-105`}>
                       <div className={theme.textMuted}>{getIcon(link.icon)}</div>
                     </div>
@@ -428,7 +477,8 @@ export function PublicProfile({ userId }: { userId: string }) {
               </div>
               <div className="space-y-4">
                 {customLinks.map(link => (
-                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
+                  <a key={link.id} href={link.url}
+                    onClick={(e) => openInApp(link.url, link.title, e)}
                     className={`block overflow-hidden rounded-2xl transition-all hover:shadow-lg border-2 ${theme.border}`}>
                     {link.banner ? (
                       /* バナーあり */
